@@ -6,7 +6,7 @@ export const useUsuario = () => {
   if (!context) {
     throw new Error("useUsuario debe usarse dentro de UserContextProvider");
   }
-  return { userUsuario: context.usuario, setUserUsuario: context.setUsuario };
+  return { userUsuario: context.usuario, setUsuario: context.setUsuario };
 };
 
 export const useNombre = () => {
@@ -22,7 +22,7 @@ export const useArea = () => {
   if (!context) {
     throw new Error("useArea debe usarse dentro de UserContextProvider");
   }
-  return { userArea: context.area, setTelefono: context.setArea };
+  return { userArea: context.area, setArea: context.setArea };
 };
 
 export const usePermisos = () => {

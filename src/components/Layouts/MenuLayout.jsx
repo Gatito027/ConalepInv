@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useLogout } from "../../utils/Logout";
 
 export default function MenuLayout() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const logout = useLogout();
 
   const menuItems = [
     { to: "/", icon: "group", label: "Gestión de usuarios" },
@@ -10,11 +12,6 @@ export default function MenuLayout() {
     { to: "/", icon: "inventory", label: "Gestión de inventario" },
     { to: "/perfil", icon: "account_circle", label: "Perfil" },
   ];
-
-  const handleLogout = () => {
-    // Aquí puedes limpiar el token, llamar a tu API de logout, etc.
-    console.log("Cerrar sesión");
-  };
 
   return (
     <div className="relative inline-block">
@@ -44,7 +41,7 @@ export default function MenuLayout() {
           ))}
 
           <button
-            onClick={handleLogout}
+            onClick={logout}
             className="flex items-center gap-x-3 px-4 py-3 w-full text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors duration-200 text-sm sm:text-base"
           >
             <span className="material-icons text-lg sm:text-xl">logout</span>
