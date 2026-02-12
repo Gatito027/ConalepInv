@@ -14,25 +14,42 @@ export default function UsuariosComponent() {
   const [isLoading, setIsLoading] = useState(true);
   const [usuarios, setUsuarios] = useState([]);
 
-  const fetchData = useCallback(async ()=>{
+  const usuariosFiltrados = usuarios.filter((usuario) => {
+    const coincideNombre = usuario.nombre
+      .toLowerCase()
+      .includes(busqueda.toLowerCase());
+    const coincideArea = usuario.areacargo
+      .toLowerCase()
+      .includes(busqueda.toLowerCase());
+    const coincideRol = usuario.rol
+      .toLowerCase()
+      .includes(busqueda.toLowerCase());
+    const coincideUsuario = usuario.nombreusuario
+      .toLowerCase()
+      .includes(busqueda.toLowerCase());
+
+    return coincideNombre || coincideArea || coincideRol || coincideUsuario;
+  });
+
+  const fetchData = useCallback(async () => {
     try {
       const response = await ListaUsuarios();
       console.log(response);
-    if (!response.isSuccess || !response.data?.length) return;
+      if (!response.isSuccess || !response.data?.length) return;
 
-    const mappedUsuarios = response.data.map((usuario) => ({
-          id: usuario.usuarioid,
-          nombre: usuario.nombre,
-          nombreusuario: usuario.nombreusuario,
-          alta: usuario.alta,
-          rol: usuario.rol,
-          areacargo: usuario.areacargo,
-        }));
-        setUsuarios(mappedUsuarios);
+      const mappedUsuarios = response.data.map((usuario) => ({
+        id: usuario.usuarioid,
+        nombre: usuario.nombre,
+        nombreusuario: usuario.nombreusuario,
+        alta: usuario.alta,
+        rol: usuario.rol,
+        areacargo: usuario.areacargo,
+      }));
+      setUsuarios(mappedUsuarios);
     } catch (error) {
       console.error("Error al cargar los usuarios:", error);
       toast.error("No se ha podido cargar los usuarios");
-    }finally{
+    } finally {
       setIsLoading(false);
     }
   }, []);
@@ -42,7 +59,7 @@ export default function UsuariosComponent() {
     // Si no hay permisos, redirige al inicio
   }, [fetchData]);
 
-  if(isLoading){
+  if (isLoading) {
     return <LoadingPageComponent />;
   }
 
@@ -71,7 +88,7 @@ export default function UsuariosComponent() {
                 <span className="w-2 h-2 bg-emerald-300 rounded-full mr-2 animate-pulse"></span>
                 Total:{" "}
                 <span className="ml-1 text-emerald-100 font-bold">
-                  0 Usuarios
+                  {usuariosFiltrados.length} Usuarios
                 </span>
               </span>
             </div>
@@ -98,14 +115,20 @@ export default function UsuariosComponent() {
             <input
               type="text"
               placeholder="Buscar por nombre"
+              value={busqueda}
+              onChange={(e) => setBusqueda(e.target.value)}
               className="pl-10 pr-3 py-2 w-full border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
             />
           </div>
         </div>
       </div>
       {/* Sección de contenido (placeholder) */}
-      < ListUsuarioComponent usuarios={usuarios} busqueda={busqueda} permisos={usePermisos} />
-      {usuarios.length <= 0 && (<NoUsersComponent />)}
+      <ListUsuarioComponent
+        usuarios={usuariosFiltrados}
+        busqueda={busqueda}
+        permisos={usePermisos}
+      />
+      {usuariosFiltrados.length <= 0 && <NoUsersComponent />}
       {/* Footer de la tabla */}
       <div className="bg-gray-50 px-6 py-4 border-t border-gray-200">
         <div className="flex justify-between items-center text-sm text-gray-600">
@@ -113,7 +136,9 @@ export default function UsuariosComponent() {
             <span className="material-icons text-emerald-500 text-base mr-2">
               info
             </span>
-            <span>Mostrando 0 de {usuarios.length} usuarios</span>
+            <span>
+              Mostrando {usuariosFiltrados.length} de {usuarios.length} usuarios
+            </span>
           </div>
         </div>
       </div>
