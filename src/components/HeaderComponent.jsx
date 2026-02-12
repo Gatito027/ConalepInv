@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
 import MenuLayout from "./Layouts/MenuLayout";
-import { useUsuario, useRol } from "../context/UseUserData";
+import { useUsuario, useArea } from "../context/UseUserData";
 
 
 export default function Header() {
   const { userUsuario } = useUsuario();
-  const { userRol } = useRol();
+  const { userArea } = useArea();
 
   return (
     <nav className="fixed top-0 left-0 w-full bg-white/30 backdrop-blur-md px-4 py-2 flex justify-between items-center z-50 shadow-sm">
@@ -31,7 +31,7 @@ export default function Header() {
               <span className="text-sm font-semibold text-gray-800">
                 {userUsuario}
               </span>
-              <span className="text-xs text-gray-600">{userRol}</span>
+              <span className="text-xs text-gray-600">{userArea}</span>
             </div>
           </div>
           <div className="bg-white/50 rounded-lg px-4 py-2 shadow-sm backdrop-blur-sm">

@@ -1,5 +1,5 @@
-import { useContext, useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import fondo from "../../assets/Background.png";
 import { UserContext } from "../../context/UserContext";
 import { Login } from "../../infrastructure/Login";

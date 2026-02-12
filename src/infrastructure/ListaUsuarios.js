@@ -1,26 +1,20 @@
 import { fetchFactory } from "../utils/FetchFactory";
 
-const url = import.meta.env.VITE_CONALEP_API + "/login";
-
-export async function Login({ user, password }) {
-    const payload = {
-        _usuario: user,
-        _password: password
-    };
-
+export async function ListaUsuarios() {
+    const url = import.meta.env.VITE_CONALEP_API + "/usuarios";
     try {
         const response = await fetchFactory({
             url,
-            data: payload,
             contentType: "json",
-            method: "POST",
+            method: "GET",
         });
 
         const result = await response.json();
 
         return result;
     } catch (error) {
-        console.log("Error al iniciar session",error.message);
+        console.error("Error al obtener los usuarios:", error.message);
+
         return {
             success: false,
             message: "Servicio no disponible",

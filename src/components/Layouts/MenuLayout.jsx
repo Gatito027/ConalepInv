@@ -7,7 +7,7 @@ export default function MenuLayout() {
   const logout = useLogout();
 
   const menuItems = [
-    { to: "/", icon: "group", label: "Gestión de usuarios" },
+    { to: "/usuarios", icon: "group", label: "Gestión de usuarios" },
     { to: "/", icon: "admin_panel_settings", label: "Gestión de roles" },
     { to: "/", icon: "inventory", label: "Gestión de inventario" },
     { to: "/perfil", icon: "account_circle", label: "Perfil" },
