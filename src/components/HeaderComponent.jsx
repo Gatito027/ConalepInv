@@ -16,7 +16,7 @@ export default function Header() {
           to="/"
           className="text-black font-semibold text-lg hover:text-emerald-600 transition-colors"
         >
-          Conalep Inventarios
+          Conalep 214 Inventario
         </Link>
       </div>
 
@@ -34,7 +34,7 @@ export default function Header() {
               <span className="text-xs text-gray-600">{userArea}</span>
             </div>
           </div>
-          <div className="bg-white/50 rounded-lg px-4 py-2 shadow-sm backdrop-blur-sm">
+          <div>
             <MenuLayout />
           </div>
         </div>

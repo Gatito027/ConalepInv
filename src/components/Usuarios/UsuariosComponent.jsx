@@ -93,7 +93,7 @@ export default function UsuariosComponent() {
               </span>
             </div>
 
-            <button className="bg-white text-emerald-700 hover:bg-emerald-50 px-5 py-3 rounded-xl font-semibold flex items-center gap-2 transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 group">
+            <button onClick={() => navigate("registro")} className="bg-white text-emerald-700 hover:bg-emerald-50 px-5 py-3 rounded-xl font-semibold flex items-center gap-2 transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 group">
               <span className="material-icons text-lg">person_add</span>
               <span>Agregar Usuario</span>
               <span className="material-icons text-lg transition-transform group-hover:translate-x-1">

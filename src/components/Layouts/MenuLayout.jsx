@@ -16,7 +16,7 @@ export default function MenuLayout() {
   return (
     <div className="relative inline-block">
       <button
-        className="flex items-center gap-x-2 text-black hover:text-emerald-600 transition-transform hover:scale-105 text-sm sm:text-base"
+        className="flex items-center gap-x-2 text-black hover:text-emerald-600 transition-transform hover:scale-105 text-sm sm:text-base bg-white/50 rounded-lg px-4 py-2 shadow-sm backdrop-blur-sm"
         onClick={() => setMenuOpen(!menuOpen)}
         aria-expanded={menuOpen}
         aria-controls="user-menu"
