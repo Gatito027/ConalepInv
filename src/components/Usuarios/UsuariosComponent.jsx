@@ -34,7 +34,7 @@ export default function UsuariosComponent() {
   const fetchData = useCallback(async () => {
     try {
       const response = await ListaUsuarios();
-      console.log(response);
+      
       if (!response.isSuccess || !response.data?.length) return;
 
       const mappedUsuarios = response.data.map((usuario) => ({

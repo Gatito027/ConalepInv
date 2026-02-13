@@ -1,13 +1,18 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import NuevoAreaModal from "./NuevoAreaModal";
+import { ObtenerTipo } from "../../infrastructure/ObtenerTipo";
 
 export default function RegistroUsuariosComponent() {
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [isRepetirPasswordFocused, setIsRepetirPasswordFocused] = useState(false);
+  const [isRepetirPasswordFocused, setIsRepetirPasswordFocused] =
+    useState(false);
   const [showRepetirPassword, setShowRepetirPassword] = useState(false);
+  const [listaAreas, setListaAreas] = useState([]);
+  const [listaRoles, setListaRoles] = useState([]);
 
   const [usuario, setUsuario] = useState("");
   const [nombre, setNombre] = useState("");
@@ -15,6 +20,31 @@ export default function RegistroUsuariosComponent() {
   const [rol, setRol] = useState("");
   const [password, setPassword] = useState("");
   const [repetirPassword, setRepetirPassword] = useState("");
+
+  const fechData = useCallback(async () => {
+    try {
+    const AreasData = await ObtenerTipo("areas");
+    const RolesData = await ObtenerTipo("roles");
+    if (!AreasData.isSuccess || !AreasData.data?.length) return;
+    if (!RolesData.isSuccess || !RolesData.data?.length) return;
+      const mappedAreas = AreasData.data.map((area) => ({
+        id: area.areaid,
+        nombre: area.nombre,
+      }));
+      const mappedRoles = RolesData.data.map((rol) => ({
+        id: rol.rolid,
+        nombre: rol.nombre,
+      }));
+      setListaRoles(mappedRoles);
+      setListaAreas(mappedAreas);
+    } catch (error) {
+      console.error("Error al cargar los datos:", error);
+      toast.error("No se ha podido cargar los datos");
+    }
+  }, []);
+
+useEffect(()=>{fechData()}, [fechData]);
+
   return (
     <div className="min-h-screen bg-linear-to-br from-emerald-50 via-teal-50 to-cyan-50 px-4 py-8">
       <div className="max-w-2xl mx-auto">
@@ -102,17 +132,9 @@ export default function RegistroUsuariosComponent() {
                     <option value="" className="text-gray-500">
                       Selecciona un área
                     </option>
-                    {[
-                      "Recursos Humanos",
-                      "Tecnología",
-                      "Marketing",
-                      "Ventas",
-                      "Finanzas",
-                    ].map((cat) => (
-                      <option key={cat} value={cat} className="text-gray-700">
-                        {cat}
-                      </option>
-                    ))}
+                    {listaAreas.map((cat) => ( 
+                      <option key={cat.id} value={cat.id} className="text-gray-700"> {cat.nombre} </option> 
+                      ))}
                   </select>
                   <span className="material-icons absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-xl">
                     arrow_drop_down
@@ -154,10 +176,10 @@ export default function RegistroUsuariosComponent() {
                   <option value="" className="text-gray-500">
                     Selecciona un rol
                   </option>
-                  {["Administrador", "Supervisor", "Analista", "Usuario"].map(
+                  {listaRoles.map(
                     (cat) => (
-                      <option key={cat} value={cat} className="text-gray-700">
-                        {cat}
+                      <option key={cat.id} value={cat.id} className="text-gray-700">
+                        {cat.nombre}
                       </option>
                     ),
                   )}
@@ -184,7 +206,9 @@ export default function RegistroUsuariosComponent() {
                   type={!showPassword ? "password" : "text"}
                   onFocus={() => setIsPasswordFocused(true)}
                   onBlur={() => setIsPasswordFocused(false)}
-                  onChange={(e) => {setPassword(e.target.value)}}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
                   disabled={isLoading}
                   value={password}
                   placeholder="••••••••"
@@ -234,7 +258,9 @@ export default function RegistroUsuariosComponent() {
                   onBlur={() => setIsRepetirPasswordFocused(false)}
                   disabled={isLoading}
                   value={repetirPassword}
-                  onChange={(e) => {setRepetirPassword(e.target.value);}}
+                  onChange={(e) => {
+                    setRepetirPassword(e.target.value);
+                  }}
                   placeholder="••••••••"
                   className="w-full px-4 py-3 pl-11 bg-gray-50 border-2 border-gray-200 rounded-xl 
                            focus:bg-white focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100 
@@ -278,7 +304,7 @@ export default function RegistroUsuariosComponent() {
           </form>
         </div>
       </div>
-      {showModal && <NuevoAreaModal setShowModal={setShowModal} />}
+      {showModal && <NuevoAreaModal setShowModal={setShowModal} reload={fechData} />}
     </div>
   );
 }
