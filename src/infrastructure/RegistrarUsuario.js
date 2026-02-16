@@ -1,13 +1,15 @@
 import { fetchFactory } from "../utils/FetchFactory";
+const url = import.meta.env.VITE_CONALEP_API + "/registrar-usuario";
 
-const url = import.meta.env.VITE_CONALEP_API + "/login";
-
-export async function Login({ user, password }) {
+export async function RegistrarUsuario({ usuario, nombre, area, rol, password }){
     const payload = {
-        _usuario: user.toLowerCase(),
+        _usuario: usuario.toLowerCase(),
+        _nombre: nombre,
+        _area: area,
+        _rol: rol,
         _password: password
-    };
-
+    }
+    //console.log(payload);
     try {
         const response = await fetchFactory({
             url,
@@ -20,7 +22,7 @@ export async function Login({ user, password }) {
 
         return result;
     } catch (error) {
-        console.log("Error al iniciar session",error.message);
+        console.log("Error al registrar usuario",error.message);
         return {
             success: false,
             message: "Servicio no disponible",

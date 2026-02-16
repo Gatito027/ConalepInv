@@ -23,7 +23,7 @@ export function UseRestoreUserContext() {
 
       try {
         const result = await RecuperarPerfil();
-        console.log(result);
+        //console.log(result);
 
         if (result.isSuccess && result.data) {
           const { permisos, rol, area_acargo, nombre, nombreusuario, usuarioid } = result.data;

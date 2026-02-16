@@ -13,11 +13,9 @@ export default function NuevoAreaModal({ setShowModal, reload }) {
   setIsLoading(true);
 
   // Ejecuta validación y guarda resultado
-  const newErrors = validateField("area", area) || {};
-  setErrors(newErrors);
 
   // Usa newErrors en vez de errors
-  if (newErrors.area?.length > 0) {
+  if (errors.area?.length > 0) {
     toast.error("Por favor, corrige los errores en el formulario");
     setIsLoading(false);
     return;
@@ -45,6 +43,7 @@ export default function NuevoAreaModal({ setShowModal, reload }) {
   const validateField = (field, value) => {
     const formData = { area, [field]: value };
     const result = AreaSchema.safeParse(formData);
+    //console.log(result);
     if (!result.success) {
       const fieldErrors = result.error.flatten().fieldErrors;
       setErrors((prev) => ({
@@ -112,6 +111,7 @@ export default function NuevoAreaModal({ setShowModal, reload }) {
                            hover:border-gray-300 transition-all duration-200 outline-none 
                            text-gray-700 placeholder-gray-400 text-sm"
                   autoFocus
+                  required
                 />
               </div>
               {errors.area?.length > 0 && (

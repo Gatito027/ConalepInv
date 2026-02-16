@@ -14,7 +14,7 @@ export async function RecuperarPerfil(){
 
     return result;
   } catch (error) {
-    console.error("Error en SubmitLogin:", error.message);
+    console.error("Error al recuperar el perfil:", error.message);
 
     return {
       success: false,
