@@ -24,7 +24,7 @@ export default function Header() {
       {userUsuario && (
         <div className="hidden sm:flex items-center gap-x-4">
           <div className="flex items-center gap-x-3">
-            <div className="w-9 h-9 rounded-full bg-linear-to-r from-emerald-400 to-emerald-500 flex items-center justify-center text-white font-semibold shadow-md">
+            <div className="w-9 h-9 rounded-full bg-linear-to-r from-emerald-500 to-teal-500 flex items-center justify-center text-white font-semibold shadow-md">
               {userUsuario?.charAt(0)?.toUpperCase() || "U"}
             </div>
             <div className="flex flex-col">

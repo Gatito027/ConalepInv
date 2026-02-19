@@ -4,6 +4,7 @@ import HomePage from "./pages/HomePage";
 import LayoutComponent from "./components/LayoutComponent";
 import UsuariosPage from "./pages/UsuariosPage";
 import RegistroUsuariosPage from "./pages/RegistroUsuariosPage";
+import VerUsuarioPage from "./pages/VerUsuarioPage";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
             <Route index element={<HomePage />} />
             <Route path="usuarios" element={<UsuariosPage />} />
             <Route path="usuarios/registro" element={<RegistroUsuariosPage />} />
+            <Route path="usuarios/usu/:id" element={<VerUsuarioPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

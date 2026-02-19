@@ -66,7 +66,7 @@ export default function UsuariosComponent() {
   return (
     <div className="max-w-6xl mx-auto mt-20 bg-white shadow-2xl rounded-2xl overflow-hidden border border-gray-100 transition-all duration-300 hover:shadow-3xl">
       {/* Header con gradiente mejorado */}
-      <div className="bg-linear-to-r from-emerald-500 via-emerald-600 to-emerald-700 p-8">
+      <div className="bg-linear-to-r from-emerald-500 via-emerald-600 to-teal-700 p-8">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
           <div className="flex items-center">
             <div className="bg-white/20 p-3 rounded-xl backdrop-blur-sm mr-4">

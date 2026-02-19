@@ -10,7 +10,7 @@ export default function ListUsuarioComponent({ usuarios, reload, permisos }) {
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead>
-            <tr className="bg-linear-to-r from-gray-50 to-emerald-50 border-b border-gray-200">
+            <tr className="bg-linear-to-r from-gray-50 to-emerald-50 border-b border-teal-200">
               <th className="p-4 font-semibold text-gray-700 text-left">
                 Detalles
               </th>
@@ -32,7 +32,7 @@ export default function ListUsuarioComponent({ usuarios, reload, permisos }) {
                   <div className="flex items-start space-x-4 group">
                     {/* Avatar mejorado con efecto hover */}
                     <div className="shrink-0">
-                      <div className="w-12 h-12 bg-linear-to-br from-emerald-500 to-emerald-600 rounded-xl shadow-sm group-hover:shadow-md group-hover:scale-105 transition-all duration-200 flex items-center justify-center">
+                      <div className="w-12 h-12 bg-linear-to-br from-emerald-500 to-teal-600 rounded-xl shadow-sm group-hover:shadow-md group-hover:scale-105 transition-all duration-200 flex items-center justify-center">
                         <span className="material-icons text-white text-xl">
                           {usuario.avatar || "person"}
                         </span>
@@ -54,7 +54,7 @@ export default function ListUsuarioComponent({ usuarios, reload, permisos }) {
                       {/* Grid para mejor organización en desktop */}
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1.5">
                         {/* Área/Cargo */}
-                        <div className="flex items-center text-gray-600">
+                        <div className="flex items-center text-teal-600">
                           <span className="material-icons text-emerald-500 text-base mr-2">
                             work_outline
                           </span>
@@ -64,7 +64,7 @@ export default function ListUsuarioComponent({ usuarios, reload, permisos }) {
                         </div>
 
                         {/* Fecha de alta con formato mejorado */}
-                        <div className="flex items-center text-gray-600">
+                        <div className="flex items-center text-teal-600">
                           <span className="material-icons text-emerald-500 text-base mr-2">
                             calendar_today
                           </span>
@@ -98,6 +98,7 @@ export default function ListUsuarioComponent({ usuarios, reload, permisos }) {
                     <Link
                       className="flex items-center justify-center w-10 h-10 bg-emerald-100 text-emerald-600 rounded-lg hover:bg-emerald-200 hover:text-emerald-700 transition-all duration-200 transform hover:scale-105 shadow-sm"
                       title="Ver detalles del usuario"
+                      to={`/usuarios/usu/${usuario.id}`}
                     >
                       <span className="material-icons text-lg">visibility</span>
                     </Link>
