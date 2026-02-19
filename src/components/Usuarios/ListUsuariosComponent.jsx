@@ -1,6 +1,10 @@
 import { Link } from "react-router-dom";
+import EliminarUsuarioModal from './EliminarUsuarioModal';
+import { useState } from "react";
 
-export default function ListUsuarioComponent({ usuarios, busqueda, permisos }) {
+export default function ListUsuarioComponent({ usuarios, reload, permisos }) {
+  const [deleteId, setDeleteId] = useState(0);
+  const [showModal, setShowModal] = useState(false);
   return (
     <div className="p-8">
       <div className="overflow-x-auto">
@@ -110,6 +114,9 @@ export default function ListUsuarioComponent({ usuarios, busqueda, permisos }) {
                       <span className="material-icons text-lg">vpn_key</span>
                     </button>
                     <button
+                      onClick={() => {setShowModal(true);
+                        setDeleteId(usuario.id);}
+                      }
                       className="flex items-center justify-center w-10 h-10 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 hover:text-red-700 transition-all duration-200 transform hover:scale-105 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                       title="Eliminar"
                     >
@@ -122,6 +129,9 @@ export default function ListUsuarioComponent({ usuarios, busqueda, permisos }) {
           </tbody>
         </table>
       </div>
+      {showModal && (
+        <EliminarUsuarioModal setShowModal={setShowModal} deleteId={deleteId} reload={reload} />
+      )}
     </div>
   );
 }

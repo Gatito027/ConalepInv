@@ -125,7 +125,7 @@ export default function UsuariosComponent() {
       {/* Sección de contenido (placeholder) */}
       <ListUsuarioComponent
         usuarios={usuariosFiltrados}
-        busqueda={busqueda}
+        reload={fetchData}
         permisos={usePermisos}
       />
       {usuariosFiltrados.length <= 0 && <NoUsersComponent />}
