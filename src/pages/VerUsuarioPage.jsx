@@ -3,5 +3,5 @@ import VerUsuarioComponent from "../components/Usuarios/VerUsuarioComponent";
 
 export default function VerUsuarioPage(){
     const { id } = useParams();
-    return <VerUsuarioComponent usarioId={id} />;
+    return <VerUsuarioComponent usuarioId={id} />;
 }

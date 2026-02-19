@@ -10,7 +10,7 @@ export const UsuarioShema = z.object({
 
   nombre: z.string()
     .trim()
-    .min(2, "El nombre debe tener al menos 2 caracteres")
+    .min(3, "El nombre debe tener al menos 3 caracteres")
     .max(100, "El nombre no puede exceder 100 caracteres")
     .regex(/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s'-]+$/, "Solo letras, espacios, acentos y guiones")
     .refine(val => !/\s{2,}/.test(val), { message: "No puede tener espacios consecutivos" })

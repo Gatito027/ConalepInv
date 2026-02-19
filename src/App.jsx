@@ -5,6 +5,7 @@ import LayoutComponent from "./components/LayoutComponent";
 import UsuariosPage from "./pages/UsuariosPage";
 import RegistroUsuariosPage from "./pages/RegistroUsuariosPage";
 import VerUsuarioPage from "./pages/VerUsuarioPage";
+import NotFound from "./pages/NoFoundPage";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
             <Route path="usuarios" element={<UsuariosPage />} />
             <Route path="usuarios/registro" element={<RegistroUsuariosPage />} />
             <Route path="usuarios/usu/:id" element={<VerUsuarioPage />} />
+            <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
       </BrowserRouter>

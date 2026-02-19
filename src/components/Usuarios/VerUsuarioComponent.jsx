@@ -1,7 +1,37 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { ObtenerUsuario } from "../../infrastructure/ObtenerUsuario";
+import toast from "react-hot-toast";
+import NotFound from "../../pages/NoFoundPage";
 
-export default function VerUsuarioComponent({usarioId}) {
+export default function VerUsuarioComponent({ usuarioId }) {
   const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState({});
+  const [error, setError] = useState(false);
+  const fetchData = useCallback(async () => {
+    try {
+      const response = await ObtenerUsuario(usuarioId);
+      if (!response.isSuccess || !response.data) {
+        setError(true);
+        return;
+      }
+      setUser(response.data);
+      //console.log(user);
+    } catch (error) {
+      console.error("Error al cargar los datos:", error);
+      toast.error("Error: No se pudo localizar al usuario");
+      setError(true);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [usuarioId]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  if(error){
+    return <NotFound />
+  }
   return (
     <div className="max-w-2xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden mt-20">
       {/* Header con gradiente */}
@@ -14,7 +44,7 @@ export default function VerUsuarioComponent({usarioId}) {
                 {isLoading ? (
                   <div className="h-24 w-24 bg-gray-300 rounded-full animate-pulse"></div>
                 ) : (
-                  <>{"JD"}</>
+                  <>{user.nombre.charAt(0)?.toUpperCase()}</>
                 )}
               </span>
             </div>
@@ -28,7 +58,7 @@ export default function VerUsuarioComponent({usarioId}) {
                   <div className="h-8 w-48 bg-gray-300 rounded animate-pulse"></div>
                 </div>
               ) : (
-                <>Juan Daniel Silva</>
+                <>{user.nombre}</>
               )}
             </h1>
 
@@ -42,7 +72,7 @@ export default function VerUsuarioComponent({usarioId}) {
                   </div>
                 ) : (
                   <span className="text-white text-sm font-medium">
-                    Administrador
+                    {user.rol}
                   </span>
                 )}
               </div>
@@ -56,7 +86,7 @@ export default function VerUsuarioComponent({usarioId}) {
                   </div>
                 ) : (
                   <span className="text-white text-sm font-medium">
-                    Sistemas
+                    {user.areatrabajo}
                   </span>
                 )}
               </div>
@@ -94,7 +124,9 @@ export default function VerUsuarioComponent({usarioId}) {
                 <div className="h-8 w-48 bg-gray-300 rounded animate-pulse"></div>
               </div>
             ) : (
-              <p className="text-gray-800 font-semibold text-lg">juan</p>
+              <p className="text-gray-800 font-semibold text-lg">
+                {user.nombreusuario}
+              </p>
             )}
           </div>
         </div>
@@ -116,7 +148,14 @@ export default function VerUsuarioComponent({usarioId}) {
               </div>
             ) : (
               <p className="text-gray-800 font-semibold text-lg">
-                22 febreroro del 2026
+                {new Date(user.alta).toLocaleDateString("es-MX", {
+                  day: "2-digit",
+                  month: "long",
+                  year: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  hour12: true,
+                })}
               </p>
             )}
           </div>
@@ -134,12 +173,12 @@ export default function VerUsuarioComponent({usarioId}) {
               Cambiar contraseña
             </button>
             <button className="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg transition-colors flex items-center gap-2 shadow-md hover:shadow-lg">
-              <span className="material-icons text-sm">business</span>
-              Cambiar area
-            </button>
-            <button className="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg transition-colors flex items-center gap-2 shadow-md hover:shadow-lg">
               <span className="material-icons text-sm">badge</span>
               Cambiar rol
+            </button>
+            <button className="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg transition-colors flex items-center gap-2 shadow-md hover:shadow-lg">
+              <span className="material-icons text-sm">business</span>
+              Cambiar area
             </button>
           </>
         )}
