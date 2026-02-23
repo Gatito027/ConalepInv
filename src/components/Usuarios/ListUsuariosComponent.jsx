@@ -1,10 +1,12 @@
 import { Link } from "react-router-dom";
 import EliminarUsuarioModal from './EliminarUsuarioModal';
 import { useState } from "react";
+import CambiarPasswordModal from "./CambiarPasswordModal";
 
 export default function ListUsuarioComponent({ usuarios, reload, permisos }) {
   const [deleteId, setDeleteId] = useState(0);
   const [showModal, setShowModal] = useState(false);
+  const [changePassword, setChangePassword] = useState(false);
   return (
     <div className="p-8">
       <div className="overflow-x-auto">
@@ -54,7 +56,7 @@ export default function ListUsuarioComponent({ usuarios, reload, permisos }) {
                       {/* Grid para mejor organización en desktop */}
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1.5">
                         {/* Área/Cargo */}
-                        <div className="flex items-center text-teal-600">
+                        <div className="flex items-center text-emerald-600">
                           <span className="material-icons text-emerald-500 text-base mr-2">
                             work_outline
                           </span>
@@ -64,7 +66,7 @@ export default function ListUsuarioComponent({ usuarios, reload, permisos }) {
                         </div>
 
                         {/* Fecha de alta con formato mejorado */}
-                        <div className="flex items-center text-teal-600">
+                        <div className="flex items-center text-emerald-600">
                           <span className="material-icons text-emerald-500 text-base mr-2">
                             calendar_today
                           </span>
@@ -110,7 +112,11 @@ export default function ListUsuarioComponent({ usuarios, reload, permisos }) {
                     </button>
                     <button
                       className="flex items-center justify-center w-10 h-10 bg-blue-100 text-blue-600 rounded-lg hover:bg-blue-200 hover:text-blue-700 transition-all duration-200 transform hover:scale-105 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-                      title="Cambiar contrase;a"
+                      title="Cambiar contraseña"
+                      onClick={()=> {
+                        setDeleteId(usuario.id);
+                        setChangePassword(true);
+                      }}
                     >
                       <span className="material-icons text-lg">vpn_key</span>
                     </button>
@@ -132,6 +138,9 @@ export default function ListUsuarioComponent({ usuarios, reload, permisos }) {
       </div>
       {showModal && (
         <EliminarUsuarioModal setShowModal={setShowModal} deleteId={deleteId} reload={reload} />
+      )}
+      {changePassword && (
+        <CambiarPasswordModal usuarioId={deleteId} setShowModal={setChangePassword} />
       )}
     </div>
   );

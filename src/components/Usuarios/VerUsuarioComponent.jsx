@@ -2,11 +2,13 @@ import { useCallback, useEffect, useState } from "react";
 import { ObtenerUsuario } from "../../infrastructure/ObtenerUsuario";
 import toast from "react-hot-toast";
 import NotFound from "../../pages/NoFoundPage";
+import CambiarPasswordModal from "./CambiarPasswordModal";
 
 export default function VerUsuarioComponent({ usuarioId }) {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState({});
   const [error, setError] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const fetchData = useCallback(async () => {
     try {
       const response = await ObtenerUsuario(usuarioId);
@@ -168,7 +170,7 @@ export default function VerUsuarioComponent({ usuarioId }) {
           <p>Cargando información, un momento por favor...</p>
         ) : (
           <>
-            <button className="px-4 py-2 text-gray-600 hover:text-gray-800 hover:bg-gray-200 rounded-lg transition-colors flex items-center gap-2">
+            <button onClick={() => {setShowModal(true);}} className="px-4 py-2 text-gray-600 hover:text-gray-800 hover:bg-gray-200 rounded-lg transition-colors flex items-center gap-2">
               <span className="material-icons text-sm">lock</span>
               Cambiar contraseña
             </button>
@@ -183,6 +185,9 @@ export default function VerUsuarioComponent({ usuarioId }) {
           </>
         )}
       </div>
+      {showModal && (
+        <CambiarPasswordModal usuarioId={usuarioId} setShowModal={setShowModal} />
+      )}
     </div>
   );
 }
