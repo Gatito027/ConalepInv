@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import NotFound from "../../pages/NoFoundPage";
 import CambiarPasswordModal from "./CambiarPasswordModal";
 import CambiarRolModal from "./CambiarRolModal";
+import CambiarAreaModal from "./CambiarAreaModal";
 
 export default function VerUsuarioComponent({ usuarioId }) {
   const [isLoading, setIsLoading] = useState(true);
@@ -11,6 +12,7 @@ export default function VerUsuarioComponent({ usuarioId }) {
   const [error, setError] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showRolModal, setShowRolModal] = useState(false);
+  const [showAreaModal, setShowAreaModal] = useState(false);
   const fetchData = useCallback(async () => {
     try {
       const response = await ObtenerUsuario(usuarioId);
@@ -180,7 +182,7 @@ export default function VerUsuarioComponent({ usuarioId }) {
               <span className="material-icons text-sm">badge</span>
               Cambiar rol
             </button>
-            <button className="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg transition-colors flex items-center gap-2 shadow-md hover:shadow-lg">
+            <button onClick={() => {setShowAreaModal(true);}} className="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg transition-colors flex items-center gap-2 shadow-md hover:shadow-lg">
               <span className="material-icons text-sm">business</span>
               Cambiar area
             </button>
@@ -192,6 +194,9 @@ export default function VerUsuarioComponent({ usuarioId }) {
       )}
       {showRolModal && (
         <CambiarRolModal usuarioId={usuarioId} setShowModal={setShowRolModal} reload={fetchData} />
+      )}
+      {showAreaModal && (
+        <CambiarAreaModal usuarioId={usuarioId} setShowModal={setShowAreaModal} reload={fetchData}/>
       )}
     </div>
   );
