@@ -19,7 +19,7 @@ export default function CambiarAreaModal({ usuarioId, setShowModal, reload }) {
       };
       const response = await CambiarAreaRol("/cambiar-area", payload);
       if (response.isSuccess) {
-        toast.success("Cambio de rol exitosos");
+        toast.success("Cambio de area exitosa");
         reload();
         setShowModal(false);
       } else {

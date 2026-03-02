@@ -104,12 +104,13 @@ export default function ListUsuarioComponent({ usuarios, reload, permisos }) {
                     >
                       <span className="material-icons text-lg">visibility</span>
                     </Link>
-                    <button
+                    <Link
                       className="flex items-center justify-center w-10 h-10 bg-amber-100 text-amber-600 rounded-lg hover:bg-amber-200 hover:text-amber-700 transition-all duration-200 transform hover:scale-105 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                       title="Editar"
+                      to={`/usuarios/editUsu/${usuario.id}`}
                     >
                       <span className="material-icons text-lg">edit</span>
-                    </button>
+                    </Link>
                     <button
                       className="flex items-center justify-center w-10 h-10 bg-blue-100 text-blue-600 rounded-lg hover:bg-blue-200 hover:text-blue-700 transition-all duration-200 transform hover:scale-105 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                       title="Cambiar contraseña"
