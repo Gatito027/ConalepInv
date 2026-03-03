@@ -2,14 +2,14 @@ import NoUsersComponent from "./NoUsersComponent";
 import ListUsuarioComponent from "./ListUsuariosComponent";
 import LoadingPageComponent from "../Others/LoadingPageComponent";
 import { ListaUsuarios } from "../../infrastructure/ListaUsuarios";
-import { usePermisos } from "../../context/UseUserData";
 import { useNavigate } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { usePermisos } from "../../context/UseUserData";
 
 export default function UsuariosComponent() {
-  const { userPermisos } = usePermisos();
   const navigate = useNavigate();
+  const { userPermisos } = usePermisos();
   const [busqueda, setBusqueda] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [usuarios, setUsuarios] = useState([]);
@@ -63,6 +63,8 @@ export default function UsuariosComponent() {
     return <LoadingPageComponent />;
   }
 
+  if (!Array.isArray(userPermisos)) return <h1 className="mt-15">No cuentas con permisos</h1>;
+
   return (
     <div className="max-w-6xl mx-auto mt-20 bg-white shadow-2xl rounded-2xl overflow-hidden border border-gray-100 transition-all duration-300 hover:shadow-3xl">
       {/* Header con gradiente mejorado */}
@@ -93,13 +95,14 @@ export default function UsuariosComponent() {
               </span>
             </div>
 
+            { userPermisos.includes("Registrar Usuarios") && (
             <button onClick={() => navigate("registro")} className="bg-white text-emerald-700 hover:bg-emerald-50 px-5 py-3 rounded-xl font-semibold flex items-center gap-2 transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 group">
               <span className="material-icons text-lg">person_add</span>
               <span>Agregar Usuario</span>
               <span className="material-icons text-lg transition-transform group-hover:translate-x-1">
                 arrow_forward
               </span>
-            </button>
+            </button>)}
           </div>
         </div>
       </div>
@@ -126,7 +129,6 @@ export default function UsuariosComponent() {
       <ListUsuarioComponent
         usuarios={usuariosFiltrados}
         reload={fetchData}
-        permisos={usePermisos}
       />
       {usuariosFiltrados.length <= 0 && <NoUsersComponent />}
       {/* Footer de la tabla */}

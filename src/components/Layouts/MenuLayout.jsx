@@ -1,16 +1,19 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useLogout } from "../../utils/Logout";
+import { usePermisos } from "../../context/UseUserData";
 
 export default function MenuLayout() {
   const [menuOpen, setMenuOpen] = useState(false);
   const logout = useLogout();
+  const { userPermisos } = usePermisos();
+  //const userPermisos = ["Usuarios","Roles", "Inventario"]
 
   const menuItems = [
-    { to: "/usuarios", icon: "group", label: "Gestión de usuarios" },
-    { to: "/", icon: "admin_panel_settings", label: "Gestión de roles" },
-    { to: "/", icon: "inventory", label: "Gestión de inventario" },
-    { to: "/perfil", icon: "account_circle", label: "Perfil" },
+    { to: "/usuarios", icon: "group", label: "Gestión de usuarios", permiso: "Usuarios" },
+    { to: "/", icon: "admin_panel_settings", label: "Gestión de roles", permiso: "Roles" },
+    { to: "/", icon: "inventory", label: "Gestión de inventario", permiso: "Inventario" },
+    { to: "/perfil", icon: "account_circle", label: "Perfil", permiso: null },
   ];
 
   return (
@@ -30,14 +33,16 @@ export default function MenuLayout() {
           className="absolute right-0 mt-2 w-56 bg-white border border-gray-200 rounded-xl shadow-lg z-50 overflow-hidden"
         >
           {menuItems.map((item, index) => (
-            <Link
-              key={index}
-              to={item.to}
-              className="flex items-center gap-x-3 px-4 py-3 w-full text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 transition-colors duration-200 text-sm sm:text-base"
-            >
-              <span className="material-icons text-base sm:text-lg">{item.icon}</span>
-              <span>{item.label}</span>
-            </Link>
+            (item.permiso === null || userPermisos.includes(item.permiso)) && (
+              <Link
+                key={index}
+                to={item.to}
+                className="flex items-center gap-x-3 px-4 py-3 w-full text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 transition-colors duration-200 text-sm sm:text-base"
+              >
+                <span className="material-icons text-base sm:text-lg">{item.icon}</span>
+                <span>{item.label}</span>
+              </Link>
+            )
           ))}
 
           <button

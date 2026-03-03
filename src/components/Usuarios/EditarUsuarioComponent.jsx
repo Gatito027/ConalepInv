@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { ObtenerUsuario } from "../../infrastructure/ObtenerUsuario";
 import { EditarUsuario } from "../../infrastructure/EditarUsuario";
 import LoadingPageComponent from "../Others/LoadingPageComponent";
+import NotFound from "../../pages/NoFoundPage";
 
 export default function EditarUsuarioComponent({ usuarioId }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -16,6 +17,7 @@ export default function EditarUsuarioComponent({ usuarioId }) {
   const [area, setArea] = useState(0);
   const [listaAreas, setListaAreas] = useState([]);
   const [listaRoles, setListaRoles] = useState([]);
+  const [errorPage, setErrorPage] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -44,11 +46,11 @@ export default function EditarUsuarioComponent({ usuarioId }) {
       const UserData = await ObtenerRolArea("obtener-rol-usuario", usuarioId);
       const response = await ObtenerUsuario(usuarioId);
       
-      if (!response.isSuccess || !response.data) return;
-      if (!AreasData?.isSuccess || !AreasData.data?.length) return;
-      if (!UserAreaData?.isSuccess) return;
-      if (!RolesData.isSuccess || !RolesData.data?.length) return;
-      if (!UserData.isSuccess) return;
+      if (!response.isSuccess || !response.data) {setErrorPage(true); return;};
+      if (!AreasData?.isSuccess || !AreasData.data?.length) {setErrorPage(true); return;};
+      if (!UserAreaData?.isSuccess) {setErrorPage(true); return;};
+      if (!RolesData.isSuccess || !RolesData.data?.length) {setErrorPage(true); return;};
+      if (!UserData.isSuccess) {setErrorPage(true); return;};
 
       const mappedAreas = AreasData.data.map((area) => ({
         id: area.areaid,
@@ -68,6 +70,7 @@ export default function EditarUsuarioComponent({ usuarioId }) {
     } catch (error) {
       console.error("Error al cargar los datos:", error);
       toast.error("No se ha podido cargar los datos");
+      setErrorPage(true);
     } finally {
       setIsLoadingPage(false);
     }
@@ -76,6 +79,8 @@ export default function EditarUsuarioComponent({ usuarioId }) {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+
+  if(errorPage) return <NotFound />;
 
   if (isLoandingPage) return <LoadingPageComponent />;
   return (

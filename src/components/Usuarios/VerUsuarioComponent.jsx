@@ -5,6 +5,7 @@ import NotFound from "../../pages/NoFoundPage";
 import CambiarPasswordModal from "./CambiarPasswordModal";
 import CambiarRolModal from "./CambiarRolModal";
 import CambiarAreaModal from "./CambiarAreaModal";
+import { usePermisos } from "../../context/UseUserData";
 
 export default function VerUsuarioComponent({ usuarioId }) {
   const [isLoading, setIsLoading] = useState(true);
@@ -13,6 +14,8 @@ export default function VerUsuarioComponent({ usuarioId }) {
   const [showModal, setShowModal] = useState(false);
   const [showRolModal, setShowRolModal] = useState(false);
   const [showAreaModal, setShowAreaModal] = useState(false);
+  const { userPermisos } = usePermisos();
+
   const fetchData = useCallback(async () => {
     try {
       const response = await ObtenerUsuario(usuarioId);
@@ -38,6 +41,9 @@ export default function VerUsuarioComponent({ usuarioId }) {
   if(error){
     return <NotFound />
   }
+
+  if (!Array.isArray(userPermisos)) return <h1 className="mt-15">No cuentas con permisos</h1>;
+
   return (
     <div className="max-w-2xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden mt-20">
       {/* Header con gradiente */}
@@ -174,18 +180,21 @@ export default function VerUsuarioComponent({ usuarioId }) {
           <p>Cargando información, un momento por favor...</p>
         ) : (
           <>
+          { userPermisos.includes("Cambiar contraseñas") && (
             <button onClick={() => {setShowModal(true);}} className="px-4 py-2 text-gray-600 hover:text-gray-800 hover:bg-gray-200 rounded-lg transition-colors flex items-center gap-2">
               <span className="material-icons text-sm">lock</span>
               Cambiar contraseña
-            </button>
+            </button>)}
+            { userPermisos.includes("Cambiar rol") && (
             <button onClick={() => {setShowRolModal(true);}} className="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg transition-colors flex items-center gap-2 shadow-md hover:shadow-lg">
               <span className="material-icons text-sm">badge</span>
               Cambiar rol
-            </button>
+            </button>)}
+            { userPermisos.includes("Cambiar area") && (
             <button onClick={() => {setShowAreaModal(true);}} className="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg transition-colors flex items-center gap-2 shadow-md hover:shadow-lg">
               <span className="material-icons text-sm">business</span>
               Cambiar area
-            </button>
+            </button>)}
           </>
         )}
       </div>

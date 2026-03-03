@@ -2,11 +2,14 @@ import { Link } from "react-router-dom";
 import EliminarUsuarioModal from './EliminarUsuarioModal';
 import { useState } from "react";
 import CambiarPasswordModal from "./CambiarPasswordModal";
+import { usePermisos } from "../../context/UseUserData";
 
-export default function ListUsuarioComponent({ usuarios, reload, permisos }) {
+export default function ListUsuarioComponent({ usuarios, reload }) {
+  const { userPermisos } = usePermisos();
   const [deleteId, setDeleteId] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [changePassword, setChangePassword] = useState(false);
+  if (!Array.isArray(userPermisos)) return <h1 className="mt-15">No cuentas con permisos</h1>;
   return (
     <div className="p-8">
       <div className="overflow-x-auto">
@@ -97,6 +100,7 @@ export default function ListUsuarioComponent({ usuarios, reload, permisos }) {
                 </td>
                 <td className="p-4">
                   <div className="flex justify-center space-x-2">
+                    { userPermisos.includes("Detalles Usuario") && (
                     <Link
                       className="flex items-center justify-center w-10 h-10 bg-emerald-100 text-emerald-600 rounded-lg hover:bg-emerald-200 hover:text-emerald-700 transition-all duration-200 transform hover:scale-105 shadow-sm"
                       title="Ver detalles del usuario"
@@ -104,13 +108,16 @@ export default function ListUsuarioComponent({ usuarios, reload, permisos }) {
                     >
                       <span className="material-icons text-lg">visibility</span>
                     </Link>
+                  )}
+                  { userPermisos.includes("Editar usuario") && (
                     <Link
                       className="flex items-center justify-center w-10 h-10 bg-amber-100 text-amber-600 rounded-lg hover:bg-amber-200 hover:text-amber-700 transition-all duration-200 transform hover:scale-105 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                       title="Editar"
                       to={`/usuarios/editUsu/${usuario.id}`}
                     >
                       <span className="material-icons text-lg">edit</span>
-                    </Link>
+                    </Link>)}
+                    { userPermisos.includes("Cambiar contraseñas") && (
                     <button
                       className="flex items-center justify-center w-10 h-10 bg-blue-100 text-blue-600 rounded-lg hover:bg-blue-200 hover:text-blue-700 transition-all duration-200 transform hover:scale-105 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                       title="Cambiar contraseña"
@@ -120,7 +127,8 @@ export default function ListUsuarioComponent({ usuarios, reload, permisos }) {
                       }}
                     >
                       <span className="material-icons text-lg">vpn_key</span>
-                    </button>
+                    </button>)}
+                    { userPermisos.includes("Eliminar Usuario") && (
                     <button
                       onClick={() => {setShowModal(true);
                         setDeleteId(usuario.id);}
@@ -129,7 +137,7 @@ export default function ListUsuarioComponent({ usuarios, reload, permisos }) {
                       title="Eliminar"
                     >
                       <span className="material-icons text-lg">cancel</span>
-                    </button>
+                    </button>)}
                   </div>
                 </td>
               </tr>
