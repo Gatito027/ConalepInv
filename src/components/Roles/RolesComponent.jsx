@@ -1,69 +1,56 @@
-import NoUsersComponent from "./NoUsersComponent";
-import ListUsuarioComponent from "./ListUsuariosComponent";
 import LoadingPageComponent from "../Others/LoadingPageComponent";
-import { ListaUsuarios } from "../../infrastructure/ListaUsuarios";
 import { useNavigate } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { usePermisos } from "../../context/UseUserData";
+import NoRolesComponent from "./NoRolesComponent";
+import ListaRolesComponent from "./ListRolesComponent";
+import { ListaRoles } from "../../infrastructure/ListaRoles";
 
-export default function UsuariosComponent() {
-  const navigate = useNavigate();
-  const { userPermisos } = usePermisos();
+export default function RolesComponent() {
   const [busqueda, setBusqueda] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
-  const [usuarios, setUsuarios] = useState([]);
+  const [roles, setRoles] = useState([]);
+  const navigate= useNavigate();
+  const [isLoadingPage, setIsLoadingPage] = useState(true);
 
-  const usuariosFiltrados = usuarios.filter((usuario) => {
-    const coincideNombre = usuario.nombre
+  const rolesFiltrados = roles.filter((rol) => {
+    const coincideNombre = rol.nombre
       .toLowerCase()
       .includes(busqueda.toLowerCase());
-    const coincideArea = usuario.areacargo
-      .toLowerCase()
-      .includes(busqueda.toLowerCase());
-    const coincideRol = usuario.rol
-      .toLowerCase()
-      .includes(busqueda.toLowerCase());
-    const coincideUsuario = usuario.nombreusuario
-      .toLowerCase()
-      .includes(busqueda.toLowerCase());
+    const coincidePermiso = Array.isArray(rol.permisos)
+    ? rol.permisos
+        .filter(Boolean) // elimina null o undefined
+        .some((permiso) =>
+          permiso.toLowerCase().includes(busqueda.toLowerCase())
+        )
+    : false;
 
-    return coincideNombre || coincideArea || coincideRol || coincideUsuario;
+    return coincideNombre || coincidePermiso;
   });
 
-  const fetchData = useCallback(async () => {
+  const fetchdata = useCallback (async () => {
     try {
-      const response = await ListaUsuarios();
+      const response = await ListaRoles();
       
       if (!response.isSuccess || !response.data?.length) return;
 
-      const mappedUsuarios = response.data.map((usuario) => ({
-        id: usuario.usuarioid,
-        nombre: usuario.nombre,
-        nombreusuario: usuario.nombreusuario,
-        alta: usuario.alta,
-        rol: usuario.rol,
-        areacargo: usuario.areacargo,
+      const mappedRoles = response.data.map((rol) => ({
+        id: rol.rolid,
+        nombre: rol.nombre,
+        permisos: rol.permisos,
       }));
-      setUsuarios(mappedUsuarios);
+      setRoles(mappedRoles);
     } catch (error) {
-      console.error("Error al cargar los usuarios:", error);
-      toast.error("No se ha podido cargar los usuarios");
+      console.error("Error al cargar los roles:", error);
+      toast.error("No se ha podido cargar los roles");
     } finally {
-      setIsLoading(false);
+      setIsLoadingPage(false);
     }
   }, []);
 
-  useEffect(() => {
-    fetchData();
-    // Si no hay permisos, redirige al inicio
-  }, [fetchData]);
-
-  if (isLoading) {
-    return <LoadingPageComponent />;
-  }
-
-  if (!Array.isArray(userPermisos)) return <h1 className="mt-15">No cuentas con permisos</h1>;
+  useEffect(()=>{
+    fetchdata();
+  }, [fetchdata]);
 
   return (
     <div className="max-w-6xl mx-auto mt-20 bg-white shadow-2xl rounded-2xl overflow-hidden border border-gray-100 transition-all duration-300 hover:shadow-3xl">
@@ -72,14 +59,16 @@ export default function UsuariosComponent() {
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
           <div className="flex items-center">
             <div className="bg-white/20 p-3 rounded-xl backdrop-blur-sm mr-4">
-              <span className="material-icons text-white text-3xl">group</span>
+              <span className="material-icons text-white text-3xl">
+                format_list_bulleted
+              </span>
             </div>
             <div>
               <h2 className="text-3xl font-bold text-white">
-                Gestión de Usuarios
+                Gestión de Roles
               </h2>
               <p className="text-emerald-100 text-sm mt-1">
-                Administra los usuarios del sistema
+                Administra los permisos del sistema
               </p>
             </div>
           </div>
@@ -89,20 +78,22 @@ export default function UsuariosComponent() {
               <span className="text-white font-semibold flex items-center">
                 <span className="w-2 h-2 bg-emerald-300 rounded-full mr-2 animate-pulse"></span>
                 Total:{" "}
-                <span className="ml-1 text-emerald-100 font-bold">
-                  {usuariosFiltrados.length} Usuarios
-                </span>
+                <span className="ml-1 text-emerald-100 font-bold">{rolesFiltrados.length} Roles</span>
               </span>
             </div>
 
-            { userPermisos.includes("Registrar Usuarios") && (
-            <button onClick={() => navigate("registro")} className="bg-white text-emerald-700 hover:bg-emerald-50 px-5 py-3 rounded-xl font-semibold flex items-center gap-2 transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 group">
-              <span className="material-icons text-lg">person_add</span>
-              <span>Agregar Usuario</span>
+            <button
+              onClick={() => navigate("registro")}
+              className="bg-white text-emerald-700 hover:bg-emerald-50 px-5 py-3 rounded-xl font-semibold flex items-center gap-2 transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 group"
+            >
+              <span className="material-icons text-lg">
+                format_list_bulleted_add
+              </span>
+              <span>Agregar Rol</span>
               <span className="material-icons text-lg transition-transform group-hover:translate-x-1">
                 arrow_forward
               </span>
-            </button>)}
+            </button>
           </div>
         </div>
       </div>
@@ -110,14 +101,13 @@ export default function UsuariosComponent() {
       {/*Buscador*/}
       <div className="px-6 py-5 bg-gray-50 border-b border-gray-200">
         <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
-          {/* Nombre */}
           <div className="relative">
             <span className="material-icons absolute left-3 top-2.5 text-gray-400 text-base">
               search
             </span>
             <input
               type="text"
-              placeholder="Buscar por nombre, rol o area"
+              placeholder="Buscar rol"
               value={busqueda}
               onChange={(e) => setBusqueda(e.target.value)}
               className="pl-10 pr-3 py-2 w-full border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
@@ -126,11 +116,9 @@ export default function UsuariosComponent() {
         </div>
       </div>
       {/* Sección de contenido (placeholder) */}
-      <ListUsuarioComponent
-        usuarios={usuariosFiltrados}
-        reload={fetchData}
-      />
-      {usuariosFiltrados.length <= 0 && <NoUsersComponent />}
+      <ListaRolesComponent reload={fetchdata} roles={rolesFiltrados} />
+      {rolesFiltrados.length <= 0 && <NoRolesComponent />}
+
       {/* Footer de la tabla */}
       <div className="bg-gray-50 px-6 py-4 border-t border-gray-200">
         <div className="flex justify-between items-center text-sm text-gray-600">
@@ -138,9 +126,7 @@ export default function UsuariosComponent() {
             <span className="material-icons text-emerald-500 text-base mr-2">
               info
             </span>
-            <span>
-              Mostrando {usuariosFiltrados.length} de {usuarios.length} usuarios
-            </span>
+            <span>Mostrando {rolesFiltrados.length} de {roles.length} roles</span>
           </div>
         </div>
       </div>

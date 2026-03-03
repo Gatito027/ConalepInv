@@ -50,7 +50,7 @@ export default function CambiarAreaModal({ usuarioId, setShowModal, reload }) {
       console.error("Error al cargar los datos:", error);
       toast.error("No se ha podido cargar los datos");
     }
-  }, []);
+  }, [usuarioId]);
 
   useEffect(() => {
       fechData();

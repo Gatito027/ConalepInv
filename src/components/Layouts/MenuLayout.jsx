@@ -11,7 +11,7 @@ export default function MenuLayout() {
 
   const menuItems = [
     { to: "/usuarios", icon: "group", label: "Gestión de usuarios", permiso: "Usuarios" },
-    { to: "/", icon: "admin_panel_settings", label: "Gestión de roles", permiso: "Roles" },
+    { to: "/roles", icon: "admin_panel_settings", label: "Gestión de roles", permiso: "Roles" },
     { to: "/", icon: "inventory", label: "Gestión de inventario", permiso: "Inventario" },
     { to: "/perfil", icon: "account_circle", label: "Perfil", permiso: null },
   ];

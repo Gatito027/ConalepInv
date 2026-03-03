@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import MenuLayout from "./Layouts/MenuLayout";
 import { useUsuario, useArea } from "../context/UseUserData";
-
+import Logo from "../assets/Logo.png";
 
 export default function Header() {
   const { userUsuario } = useUsuario();
@@ -11,16 +11,20 @@ export default function Header() {
     <nav className="fixed top-0 left-0 w-full bg-white/30 backdrop-blur-md px-4 py-2 flex justify-between items-center z-50 shadow-sm">
       {/* Logo y nombre */}
       <div className="flex items-center gap-x-2">
-        <p className="text-black font-bold text-xl">ᓚᘏᗢ</p>
+        <img
+          src={Logo}
+          alt="Logo"
+          className="w-10 h-10 object-contain"
+        />
         <Link
           to="/"
           className="text-black font-semibold text-lg hover:text-emerald-600 transition-colors"
         >
-          Conalep 214 Inventario
+          Conalep 214
         </Link>
       </div>
 
-      {/* Navegación */}
+      {/* Navegación en pantallas grandes */}
       {userUsuario && (
         <div className="hidden sm:flex items-center gap-x-4">
           <div className="flex items-center gap-x-3">
@@ -37,6 +41,13 @@ export default function Header() {
           <div>
             <MenuLayout />
           </div>
+        </div>
+      )}
+
+      {/* Navegación en pantallas pequeñas */}
+      {userUsuario && (
+        <div className="sm:hidden">
+          <MenuLayout />
         </div>
       )}
     </nav>

@@ -7,6 +7,7 @@ import RegistroUsuariosPage from "./pages/RegistroUsuariosPage";
 import VerUsuarioPage from "./pages/VerUsuarioPage";
 import NotFound from "./pages/NoFoundPage";
 import EditarUsuarioPage from "./pages/EditarUsuarioPage";
+import RolesPage from "./pages/RolesPage";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="usuarios/registro" element={<RegistroUsuariosPage />} />
             <Route path="usuarios/usu/:id" element={<VerUsuarioPage />} />
             <Route path="usuarios/editUsu/:id" element={<EditarUsuarioPage />} />
+            <Route path="roles" element={<RolesPage/>} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
