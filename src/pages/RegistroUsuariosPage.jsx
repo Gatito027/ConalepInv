@@ -8,10 +8,14 @@ export default function RegistroUsuariosPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!Array.isArray(userPermisos)) return;
+    if (!userPermisos || !Array.isArray(userPermisos)) {
+      navigate("/");
+      return;
+    }
 
     const tieneAmbosPermisos =
-      userPermisos.includes("Usuarios") && userPermisos.includes("Registrar Usuarios");
+      userPermisos.includes("Usuarios") &&
+      userPermisos.includes("Registrar Usuarios");
 
     if (!tieneAmbosPermisos) {
       navigate("/");

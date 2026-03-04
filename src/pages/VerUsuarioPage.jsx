@@ -5,14 +5,19 @@ import { useEffect } from "react";
 
 export default function VerUsuarioPage() {
   const { id } = useParams();
-  const { userPermisos = [] } = usePermisos();
+  const { userPermisos } = usePermisos();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!Array.isArray(userPermisos)) return;
+    // Si no hay permisos o no es un array válido, redirige
+    if (!userPermisos || !Array.isArray(userPermisos)) {
+      navigate("/");
+      return;
+    }
 
     const tieneAmbosPermisos =
-      userPermisos.includes("Usuarios") && userPermisos.includes("Detalles Usuario");
+      userPermisos.includes("Usuarios") &&
+      userPermisos.includes("Detalles Usuario");
 
     if (!tieneAmbosPermisos) {
       navigate("/");

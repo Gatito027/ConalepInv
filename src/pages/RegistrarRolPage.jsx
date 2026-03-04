@@ -1,9 +1,9 @@
-import UsuariosComponent from "../components/Usuarios/UsuariosComponent";
 import { usePermisos } from "../context/UseUserData";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import RegistroRolesComponent from "../components/RegistroRoles/RegistroRolesComponent";
 
-export default function UsuariosPage(){
+export default function RegistrarRolPage(){
     const { userPermisos = [] } = usePermisos();
   const navigate = useNavigate();
 
@@ -15,12 +15,12 @@ export default function UsuariosPage(){
     }
 
     const tieneAmbosPermisos =
-      userPermisos.includes("Usuarios");
+      userPermisos.includes("Roles");
 
     if (!tieneAmbosPermisos) {
       navigate("/");
     }
   }, [userPermisos, navigate]);
 
-    return <UsuariosComponent />;
+  return <RegistroRolesComponent />;
 }

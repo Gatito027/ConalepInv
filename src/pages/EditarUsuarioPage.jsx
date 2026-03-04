@@ -10,15 +10,21 @@ export default function EditarUsuarioPage(){
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!Array.isArray(userPermisos)) return;
+    // Si no hay permisos o no es un array válido, redirige
+    if (!userPermisos || !Array.isArray(userPermisos)) {
+      navigate("/");
+      return;
+    }
 
     const tieneAmbosPermisos =
-      userPermisos.includes("Usuarios") && userPermisos.includes("Editar usuario");
+      userPermisos.includes("Usuarios") &&
+      userPermisos.includes("Editar usuario");
 
     if (!tieneAmbosPermisos) {
       navigate("/");
     }
   }, [userPermisos, navigate]);
+
     return(
         <EditarUsuarioComponent usuarioId={id} />
     );

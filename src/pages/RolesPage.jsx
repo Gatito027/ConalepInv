@@ -8,15 +8,20 @@ export default function RolesPage(){
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!Array.isArray(userPermisos)) return;
+    // Si no hay permisos o no es un array válido, redirige
+    if (!userPermisos || !Array.isArray(userPermisos)) {
+      navigate("/");
+      return;
+    }
 
     const tieneAmbosPermisos =
-      userPermisos.includes("Usuarios");
+      userPermisos.includes("Roles");
 
     if (!tieneAmbosPermisos) {
       navigate("/");
     }
   }, [userPermisos, navigate]);
+
 
   return <RolesComponent />;
 }
