@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { usePermisos } from "../../context/UseUserData";
+import EliminarRolModal from "./EliminarRolModal";
 
 export default function ListaRolesComponent({ roles, reload }) {
+  const [deleteRolId, setDeleteRolId] = useState(0);
+  const [showModal, setShowModal] = useState(false);
   return (
     <div className="p-8">
       <div className="overflow-x-auto">
@@ -98,11 +101,12 @@ export default function ListaRolesComponent({ roles, reload }) {
                   <div className="flex justify-center space-x-2">
                     <Link
                       className="flex items-center justify-center w-10 h-10 bg-emerald-100 text-emerald-600 rounded-lg hover:bg-emerald-200 hover:text-emerald-700 transition-all duration-200 transform hover:scale-105 shadow-sm"
-                      title="Ver detalles del usuario"
-                      to={`/usuarios/usu/${rol.id}`}
+                      title="Ver detalles del rol"
+                      to={`/roles/rol/${rol.id}`}
                     >
                       <span className="material-icons text-lg">visibility</span>
                     </Link>
+                    {rol.id !== 1 && (<>
                     <Link
                       className="flex items-center justify-center w-10 h-10 bg-amber-100 text-amber-600 rounded-lg hover:bg-amber-200 hover:text-amber-700 transition-all duration-200 transform hover:scale-105 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                       title="Editar"
@@ -110,12 +114,18 @@ export default function ListaRolesComponent({ roles, reload }) {
                     >
                       <span className="material-icons text-lg">edit</span>
                     </Link>
+                    
                     <button
+                      onClick={ () => {
+                        setDeleteRolId(rol.id);
+                        setShowModal(true);
+                      }}
                       className="flex items-center justify-center w-10 h-10 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 hover:text-red-700 transition-all duration-200 transform hover:scale-105 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                       title="Eliminar"
                     >
                       <span className="material-icons text-lg">cancel</span>
                     </button>
+                    </>)}
                   </div>
                 </td>
               </tr>
@@ -123,6 +133,7 @@ export default function ListaRolesComponent({ roles, reload }) {
           </tbody>
         </table>
       </div>
+      {showModal && (<EliminarRolModal idrol={deleteRolId} reload={reload} setShowModal={setShowModal} /> )}
     </div>
   );
 }
