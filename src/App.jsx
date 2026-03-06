@@ -10,6 +10,7 @@ import EditarUsuarioPage from "./pages/EditarUsuarioPage";
 import RolesPage from "./pages/RolesPage";
 import RegistrarRolPage from "./pages/RegistrarRolPage";
 import VerRolPage from "./pages/VerRolPage";
+import EditarRolPage from "./pages/EditarRolPage";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
             <Route path="roles" element={<RolesPage/>} />
             <Route path="roles/registro" element={<RegistrarRolPage />} />
             <Route path="roles/rol/:id" element={<VerRolPage />} />
+            <Route path="roles/editrol/:id" element={<EditarRolPage />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>

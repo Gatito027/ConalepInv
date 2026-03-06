@@ -1,14 +1,14 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { usePermisos } from "../context/UseUserData";
 import { useEffect } from "react";
-import VerRolComponent from "../components/VerRol/VerRolComponent";
+import EditarRolComponent from "../components/EditarRol/EditarRolComponent";
 
-export default function VerRolPage() {
+export default function EditarRolPage() {
   const { id } = useParams();
   const { userPermisos } = usePermisos();
   const navigate = useNavigate();
 
-  useEffect(() => {
+  /*useEffect(() => {
     // Si no hay permisos o no es un array válido, redirige
     if (!userPermisos || !Array.isArray(userPermisos)) {
       navigate("/");
@@ -21,7 +21,7 @@ export default function VerRolPage() {
     if (!tieneAmbosPermisos) {
       navigate("/");
     }
-  }, [userPermisos, navigate]);
+  }, [userPermisos, navigate]);*/
 
-  return <VerRolComponent rolId={id} />;
+  return <EditarRolComponent rolId={id} />;
 }
