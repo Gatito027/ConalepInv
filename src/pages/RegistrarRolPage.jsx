@@ -15,7 +15,8 @@ export default function RegistrarRolPage(){
     }
 
     const tieneAmbosPermisos =
-      userPermisos.includes("Roles");
+      userPermisos.includes("Roles") &&
+      userPermisos.includes("Crear rol");
 
     if (!tieneAmbosPermisos) {
       navigate("/");

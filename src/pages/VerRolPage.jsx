@@ -16,7 +16,8 @@ export default function VerRolPage() {
     }
 
     const tieneAmbosPermisos =
-      userPermisos.includes("Roles");
+      userPermisos.includes("Roles") &&
+      userPermisos.includes("Detalles rol");
 
     if (!tieneAmbosPermisos) {
       navigate("/");

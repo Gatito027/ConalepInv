@@ -6,6 +6,7 @@ import { ObtenerRolPermisos } from "../../infrastructure/ObtenerRolPermisos";
 import LoadingPageComponent from "../Others/LoadingPageComponent";
 import { EditarRol } from "../../infrastructure/EditarRol";
 import NotFound from "../../pages/NoFoundPage";
+import NoEditatableComponent from "../Others/NoEditableComponent";
 
 export default function EditarRolComponent({ rolId }) {
   const [permisos, setPermisos] = useState([]);
@@ -157,6 +158,8 @@ export default function EditarRolComponent({ rolId }) {
   };
 
   const totalPermisosSeleccionados = selectedPermisos.length;
+
+  if(rolId == 1) return <NoEditatableComponent />
 
   if (noData) return <NotFound />;
 

@@ -8,6 +8,7 @@ import ListaRolesComponent from "./ListRolesComponent";
 import { ListaRoles } from "../../infrastructure/ListaRoles";
 
 export default function RolesComponent() {
+  const { userPermisos } = usePermisos();
   const [busqueda, setBusqueda] = useState("");
   const [roles, setRoles] = useState([]);
   const navigate= useNavigate();
@@ -52,6 +53,10 @@ export default function RolesComponent() {
     fetchdata();
   }, [fetchdata]);
 
+  if (!Array.isArray(userPermisos)) return <h1 className="mt-15">No cuentas con permisos</h1>;
+
+  if(isLoadingPage) return <LoadingPageComponent />;
+
   return (
     <div className="max-w-6xl mx-auto mt-20 bg-white shadow-2xl rounded-2xl overflow-hidden border border-gray-100 transition-all duration-300 hover:shadow-3xl">
       {/* Header con gradiente mejorado */}
@@ -82,6 +87,7 @@ export default function RolesComponent() {
               </span>
             </div>
 
+            { userPermisos.includes("Crear rol") && (
             <button
               onClick={() => navigate("registro")}
               className="bg-white text-emerald-700 hover:bg-emerald-50 px-5 py-3 rounded-xl font-semibold flex items-center gap-2 transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 group"
@@ -93,7 +99,7 @@ export default function RolesComponent() {
               <span className="material-icons text-lg transition-transform group-hover:translate-x-1">
                 arrow_forward
               </span>
-            </button>
+            </button>)}
           </div>
         </div>
       </div>

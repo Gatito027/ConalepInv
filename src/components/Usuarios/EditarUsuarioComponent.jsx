@@ -280,7 +280,7 @@ export default function EditarUsuarioComponent({ usuarioId }) {
                 ) : (
                   <>
                     <span className="material-icons text-xl">save</span>
-                    Registrar Usuario
+                    Guardar Cambios
                   </>
                 )}
               </button>

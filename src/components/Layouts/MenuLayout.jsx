@@ -23,6 +23,7 @@ export default function MenuLayout() {
         onClick={() => setMenuOpen(!menuOpen)}
         aria-expanded={menuOpen}
         aria-controls="user-menu"
+        title="menu"
       >
         <span className="truncate"><span className="material-icons">menu</span></span>
       </button>

@@ -4,8 +4,11 @@ import { usePermisos } from "../../context/UseUserData";
 import EliminarRolModal from "./EliminarRolModal";
 
 export default function ListaRolesComponent({ roles, reload }) {
+  const { userPermisos } = usePermisos();
   const [deleteRolId, setDeleteRolId] = useState(0);
   const [showModal, setShowModal] = useState(false);
+
+  if (!Array.isArray(userPermisos)) return <h1 className="mt-15">No cuentas con permisos</h1>;
   return (
     <div className="p-8">
       <div className="overflow-x-auto">
@@ -99,22 +102,24 @@ export default function ListaRolesComponent({ roles, reload }) {
 
                 <td className="p-4">
                   <div className="flex justify-center space-x-2">
+                    { userPermisos.includes("Detalles rol") && (
                     <Link
                       className="flex items-center justify-center w-10 h-10 bg-emerald-100 text-emerald-600 rounded-lg hover:bg-emerald-200 hover:text-emerald-700 transition-all duration-200 transform hover:scale-105 shadow-sm"
                       title="Ver detalles del rol"
                       to={`/roles/rol/${rol.id}`}
                     >
                       <span className="material-icons text-lg">visibility</span>
-                    </Link>
+                    </Link>)}
                     {rol.id !== 1 && (<>
+                    { userPermisos.includes("Editar rol") && (
                     <Link
                       className="flex items-center justify-center w-10 h-10 bg-amber-100 text-amber-600 rounded-lg hover:bg-amber-200 hover:text-amber-700 transition-all duration-200 transform hover:scale-105 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                       title="Editar"
                       to={`/roles/editrol/${rol.id}`}
                     >
                       <span className="material-icons text-lg">edit</span>
-                    </Link>
-                    
+                    </Link>)}
+                    {rol.id !== 2 && userPermisos.includes("Eliminar rol") && (
                     <button
                       onClick={ () => {
                         setDeleteRolId(rol.id);
@@ -125,6 +130,7 @@ export default function ListaRolesComponent({ roles, reload }) {
                     >
                       <span className="material-icons text-lg">cancel</span>
                     </button>
+                    )}
                     </>)}
                   </div>
                 </td>

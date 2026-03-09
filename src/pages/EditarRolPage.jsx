@@ -8,7 +8,7 @@ export default function EditarRolPage() {
   const { userPermisos } = usePermisos();
   const navigate = useNavigate();
 
-  /*useEffect(() => {
+  useEffect(() => {
     // Si no hay permisos o no es un array válido, redirige
     if (!userPermisos || !Array.isArray(userPermisos)) {
       navigate("/");
@@ -16,12 +16,13 @@ export default function EditarRolPage() {
     }
 
     const tieneAmbosPermisos =
-      userPermisos.includes("Roles");
+      userPermisos.includes("Roles") &&
+      userPermisos.includes("Editar rol");
 
     if (!tieneAmbosPermisos) {
       navigate("/");
     }
-  }, [userPermisos, navigate]);*/
+  }, [userPermisos, navigate]);
 
   return <EditarRolComponent rolId={id} />;
 }
