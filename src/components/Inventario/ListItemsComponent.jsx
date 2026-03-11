@@ -42,7 +42,6 @@ export default function ListItemsComponent({ articulos, reload }) {
                           src={item?.imagen || placeholder}
                           alt={item.descripcion || "Item"}
                           className="w-10 h-10 object-contain drop-shadow-md"
-                          loading="lazy"
                         />
                       </div>
                     </div>
@@ -53,6 +52,14 @@ export default function ListItemsComponent({ articulos, reload }) {
                       <div className="flex items-start justify-between gap-2">
                         <h3 className="text-lg font-semibold text-gray-800 leading-tight group-hover:text-emerald-600 transition-colors duration-200 line-clamp-2">
                           {item.descripcion}
+                          <span className="text-sm text-gray-500 p-2 font-medium">
+                            x{item.cantidad}
+                          </span>
+                          {item.donativo && (
+                            <span className="px-1.5 py-0.5 rounded-full font-medium text-xs bg-emerald-100 text-emerald-700">
+                              Donativo
+                            </span>
+                          )}
                         </h3>
                       </div>
 
@@ -158,13 +165,14 @@ export default function ListItemsComponent({ articulos, reload }) {
 
                 <td className="p-4">
                   <div className="flex justify-center space-x-2">
+                    { userPermisos.includes("Detalles articulo") && (
                     <Link
                       className="flex items-center justify-center w-10 h-10 bg-emerald-100 text-emerald-600 rounded-lg hover:bg-emerald-200 hover:text-emerald-700 transition-all duration-200 transform hover:scale-105 shadow-sm"
                       title="Ver detalles del item"
-                      to={`/usuarios/usu/${item.id}`}
+                      to={`/inventario/item/${item.id}`}
                     >
                       <span className="material-icons text-lg">visibility</span>
-                    </Link>
+                    </Link>)}
                     <Link
                       className="flex items-center justify-center w-10 h-10 bg-amber-100 text-amber-600 rounded-lg hover:bg-amber-200 hover:text-amber-700 transition-all duration-200 transform hover:scale-105 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                       title="Editar"

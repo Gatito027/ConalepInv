@@ -26,6 +26,8 @@ export default function InventarioComponent() {
       .includes(textoBusqueda);
     const coincideEstado = item.estado?.toLowerCase().includes(textoBusqueda);
     const coincideLugar = item.lugar?.toLowerCase().includes(textoBusqueda);
+    const coincideDonativo =
+      textoBusqueda === "donativo" ? item.donativo === true : false;
     const coincideAsignado = Array.isArray(item.asignado)
       ? // Caso especial: si el usuario busca "sin asignar"
         textoBusqueda === "sin asignar"
@@ -40,6 +42,7 @@ export default function InventarioComponent() {
       coincideNumInv ||
       coincideEstado ||
       coincideLugar ||
+      coincideDonativo ||
       coincideAsignado
     );
   });
@@ -52,12 +55,14 @@ export default function InventarioComponent() {
 
       const mappedItems = response.data.map((item) => ({
         id: item.bienid,
-        descripcion: item.decripcion,
+        descripcion: item.descripcion,
         imagen: item.imagenurl,
-        numinv: item.numeroinvetario,
+        numinv: item.numeroinventario,
         estado: item.estado,
         lugar: item.nombre,
-        fechaadqui: item.fechaadquision,
+        fechaadqui: item.fechaadquisicion,
+        cantidad: item.cantidad,
+        donativo: item.donativo,
         asignado: item.nombre_persona,
       }));
       setArticulos(mappedItems);
