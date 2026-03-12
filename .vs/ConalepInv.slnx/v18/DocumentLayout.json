@@ -3,8 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\DDDAN\\OneDrive\\Documentos\\Daniel\\Estadia 2\\Proyecto\\Frontend\\ConalepInv\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\DDDAN\\OneDrive\\Documentos\\Daniel\\Estadia 2\\Proyecto\\Frontend\\ConalepInv\\src\\App.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\App.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\DDDAN\\OneDrive\\Documentos\\Daniel\\Estadia 2\\Proyecto\\Frontend\\ConalepInv\\src\\components\\Inventario\\EliminarItemModal.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\components\\Inventario\\EliminarItemModal.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\DDDAN\\OneDrive\\Documentos\\Daniel\\Estadia 2\\Proyecto\\Frontend\\ConalepInv\\src\\components\\Usuarios\\EliminarUsuarioModal.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\components\\Usuarios\\EliminarUsuarioModal.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     }
   ],
   "DocumentGroupContainers": [
@@ -27,14 +31,27 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "App.jsx",
-              "DocumentMoniker": "C:\\Users\\DDDAN\\OneDrive\\Documentos\\Daniel\\Estadia 2\\Proyecto\\Frontend\\ConalepInv\\src\\App.jsx",
-              "RelativeDocumentMoniker": "src\\App.jsx",
-              "ToolTip": "C:\\Users\\DDDAN\\OneDrive\\Documentos\\Daniel\\Estadia 2\\Proyecto\\Frontend\\ConalepInv\\src\\App.jsx",
-              "RelativeToolTip": "src\\App.jsx",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Title": "EliminarItemModal.jsx",
+              "DocumentMoniker": "C:\\Users\\DDDAN\\OneDrive\\Documentos\\Daniel\\Estadia 2\\Proyecto\\Frontend\\ConalepInv\\src\\components\\Inventario\\EliminarItemModal.jsx",
+              "RelativeDocumentMoniker": "src\\components\\Inventario\\EliminarItemModal.jsx",
+              "ToolTip": "C:\\Users\\DDDAN\\OneDrive\\Documentos\\Daniel\\Estadia 2\\Proyecto\\Frontend\\ConalepInv\\src\\components\\Inventario\\EliminarItemModal.jsx",
+              "RelativeToolTip": "src\\components\\Inventario\\EliminarItemModal.jsx",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABkAAAAGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2026-02-03T19:02:02.271Z",
+              "WhenOpened": "2026-03-12T22:07:40.901Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "EliminarUsuarioModal.jsx",
+              "DocumentMoniker": "C:\\Users\\DDDAN\\OneDrive\\Documentos\\Daniel\\Estadia 2\\Proyecto\\Frontend\\ConalepInv\\src\\components\\Usuarios\\EliminarUsuarioModal.jsx",
+              "RelativeDocumentMoniker": "src\\components\\Usuarios\\EliminarUsuarioModal.jsx",
+              "ToolTip": "C:\\Users\\DDDAN\\OneDrive\\Documentos\\Daniel\\Estadia 2\\Proyecto\\Frontend\\ConalepInv\\src\\components\\Usuarios\\EliminarUsuarioModal.jsx",
+              "RelativeToolTip": "src\\components\\Usuarios\\EliminarUsuarioModal.jsx",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAAAC0AAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2026-03-12T22:07:21.841Z",
               "EditorCaption": ""
             }
           ]

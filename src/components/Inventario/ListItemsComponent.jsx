@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { usePermisos } from "../../context/UseUserData";
 import placeholder from "../../assets/Placeholder.png";
+import EliminarItemModal from "./EliminarItemModal";
 
 export default function ListItemsComponent({ articulos, reload }) {
   const { userPermisos } = usePermisos();
@@ -216,6 +217,7 @@ export default function ListItemsComponent({ articulos, reload }) {
           </tbody>
         </table>
       </div>
+      {showDeleteModal && <EliminarItemModal itemid={useId} reload={reload} setShowModal={setShowDeleteModal} />}
     </div>
   );
 }

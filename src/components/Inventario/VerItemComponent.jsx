@@ -24,7 +24,7 @@ export default function VerItemComponent({ itemid }) {
     try {
       //console.log(itemid);
       const response = await ObtenerArticulo(itemid);
-      console.log(response);
+      //console.log(response);
       if (!response.isSuccess || !response.data) {
         setError(true);
         return;
