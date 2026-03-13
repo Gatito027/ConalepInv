@@ -6,6 +6,7 @@ import { ObtenerUsuario } from "../../infrastructure/ObtenerUsuario";
 import { EditarUsuario } from "../../infrastructure/EditarUsuario";
 import LoadingPageComponent from "../Others/LoadingPageComponent";
 import NotFound from "../../pages/NoFoundPage";
+import NuevoAreaModal from "../RegistroUsuarios/NuevoAreaModal";
 
 export default function EditarUsuarioComponent({ usuarioId }) {
   const [isLoading, setIsLoading] = useState(false);

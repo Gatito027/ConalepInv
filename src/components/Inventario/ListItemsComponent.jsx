@@ -3,12 +3,14 @@ import { useState } from "react";
 import { usePermisos } from "../../context/UseUserData";
 import placeholder from "../../assets/Placeholder.png";
 import EliminarItemModal from "./EliminarItemModal";
+import AsignarItemModal from "./AsignarItemModal";
 
 export default function ListItemsComponent({ articulos, reload }) {
   const { userPermisos } = usePermisos();
   const [useId, setUseId] = useState(0);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showLocationModal, setShowLocationModal] = useState(false);
+  const [showAsignarModal, setShowAsignarModal] = useState(false);
   if (!Array.isArray(userPermisos))
     return <h1 className="mt-15">No cuentas con permisos</h1>;
   return (
@@ -196,7 +198,7 @@ export default function ListItemsComponent({ articulos, reload }) {
                       title="Reasignar"
                       onClick={()=> {
                         setUseId(item.id);
-                        setShowLocationModal(true);
+                        setShowAsignarModal(true);
                       }}
                     >
                       <span className="material-icons text-lg">face</span>
@@ -218,6 +220,7 @@ export default function ListItemsComponent({ articulos, reload }) {
         </table>
       </div>
       {showDeleteModal && <EliminarItemModal itemid={useId} reload={reload} setShowModal={setShowDeleteModal} />}
+      {showAsignarModal && <AsignarItemModal itemId={useId} reload={reload} setShowModal={setShowAsignarModal} />}
     </div>
   );
 }
