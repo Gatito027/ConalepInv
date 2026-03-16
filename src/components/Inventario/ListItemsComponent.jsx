@@ -4,6 +4,7 @@ import { usePermisos } from "../../context/UseUserData";
 import placeholder from "../../assets/Placeholder.png";
 import EliminarItemModal from "./EliminarItemModal";
 import AsignarItemModal from "./AsignarItemModal";
+import CambiarUbicacionModal from "./CambiarUbicacionModal";
 
 export default function ListItemsComponent({ articulos, reload }) {
   const { userPermisos } = usePermisos();
@@ -221,6 +222,7 @@ export default function ListItemsComponent({ articulos, reload }) {
       </div>
       {showDeleteModal && <EliminarItemModal itemid={useId} reload={reload} setShowModal={setShowDeleteModal} />}
       {showAsignarModal && <AsignarItemModal itemId={useId} reload={reload} setShowModal={setShowAsignarModal} />}
+      {showLocationModal && <CambiarUbicacionModal itemId={useId} reload={reload} setShowModal={setShowLocationModal} />}
     </div>
   );
 }
