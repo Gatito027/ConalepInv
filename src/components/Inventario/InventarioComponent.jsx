@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { usePermisos } from "../../context/UseUserData";
+import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import NoItemsComponent from "./NoItemsComponent";
 import QrModal from "./QrModal";
@@ -9,6 +10,7 @@ import LoadingPageComponent from "../Others/LoadingPageComponent";
 
 export default function InventarioComponent() {
   const { userPermisos } = usePermisos();
+  const navigate = useNavigate();
   const [busqueda, setBusqueda] = useState("");
   const [showQrModal, setShowQrModal] = useState(false);
   const [articulos, setArticulos] = useState([]);
@@ -128,7 +130,7 @@ export default function InventarioComponent() {
             )}
             {userPermisos.includes("Agregar articulo") && (
               <button
-                onClick={() => navigate("registro")}
+                onClick={() => navigate("inventario/registro")}
                 className="bg-white text-emerald-700 hover:bg-emerald-50 px-5 py-3 rounded-xl font-semibold flex items-center gap-2 transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 group"
               >
                 <span className="material-icons text-lg">assignment_add</span>
