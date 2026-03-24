@@ -1,5 +1,7 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { crearSchemaCampo } from "../../utils/schemas/StringSchema";
+import { RegistrarTipo } from "../../infrastructure/RegistrarTipo";
 
 export default function ModeloModal({
   setShowModal,
@@ -20,7 +22,8 @@ export default function ModeloModal({
     }
 
     try {
-      const response = true;
+      const payload = {_modelo: modelo};
+      const response = await RegistrarTipo(payload, "inv/registrar-modelo");
 
       if (response.isSuccess) {
         toast.success("Modelo guardado");
@@ -39,9 +42,8 @@ export default function ModeloModal({
 
   const validateField = (field, value) => {
     const formData = { modelo, [field]: value };
-    //const result = LugarSchema.safeParse(formData);
-    const result = {success: true};
-    //console.log(result);
+    const ModeloSchema = crearSchemaCampo("modelo");
+    const result = ModeloSchema.safeParse(formData);
     if (!result.success) {
       const fieldErrors = result.error.flatten().fieldErrors;
       setErrors((prev) => ({

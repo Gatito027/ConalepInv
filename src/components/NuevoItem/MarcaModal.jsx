@@ -1,5 +1,7 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { crearSchemaCampo } from "../../utils/schemas/StringSchema";
+import { RegistrarTipo } from "../../infrastructure/RegistrarTipo";
 
 export default function MarcaModal({
   setShowModal,
@@ -20,7 +22,8 @@ export default function MarcaModal({
     }
 
     try {
-      const response = true;
+      const payload = {_marca: marca};
+      const response = await RegistrarTipo(payload, "inv/registrar-marca");
 
       if (response.isSuccess) {
         toast.success("Marca guardado");
@@ -39,8 +42,8 @@ export default function MarcaModal({
 
   const validateField = (field, value) => {
     const formData = { marca, [field]: value };
-    //const result = LugarSchema.safeParse(formData);
-    const result = {success: true};
+    const MarcaSchema = crearSchemaCampo("marca");
+    const result = MarcaSchema.safeParse(formData);
     //console.log(result);
     if (!result.success) {
       const fieldErrors = result.error.flatten().fieldErrors;

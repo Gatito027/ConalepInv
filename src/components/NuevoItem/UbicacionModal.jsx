@@ -1,6 +1,7 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { LugarSchema } from "../../utils/schemas/LugarSchema";
+import { RegistrarTipo } from "../../infrastructure/RegistrarTipo";
 
 export default function UbicacionModal({
   setShowModal,
@@ -21,7 +22,8 @@ export default function UbicacionModal({
     }
 
     try {
-      const response = true;
+      const payload = {_ubicacion: newUbicacion};
+      const response = await RegistrarTipo(payload, "inv/registrar-lugar");
 
       if (response.isSuccess) {
         toast.success("Ubicación guardada");

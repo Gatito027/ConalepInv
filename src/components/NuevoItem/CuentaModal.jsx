@@ -1,5 +1,7 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { crearSchemaCampo } from "../../utils/schemas/StringSchema";
+import { RegistrarTipo } from "../../infrastructure/RegistrarTipo";
 
 export default function CuentaModal({
   setShowModal,
@@ -20,7 +22,8 @@ export default function CuentaModal({
     }
 
     try {
-      const response = true;
+      const payload = {_tipo: cuenta};
+      const response = await RegistrarTipo(payload, "inv/registrar-cuenta");
 
       if (response.isSuccess) {
         toast.success("Cuenta guardado");
@@ -39,9 +42,8 @@ export default function CuentaModal({
 
   const validateField = (field, value) => {
     const formData = { cuenta, [field]: value };
-    //const result = LugarSchema.safeParse(formData);
-    const result = {success: true};
-    //console.log(result);
+    const CuentaSchema = crearSchemaCampo("cuenta");
+    const result = CuentaSchema.safeParse(formData);
     if (!result.success) {
       const fieldErrors = result.error.flatten().fieldErrors;
       setErrors((prev) => ({
@@ -117,7 +119,7 @@ export default function CuentaModal({
             </fieldset>
             {errors.cuenta?.length > 0 && (
                 <ul className="text-red-600 text-sm mt-2 list-disc list-inside">
-                  {errors.marca.map((err, i) => (
+                  {errors.cuenta.map((err, i) => (
                     <li key={i}>{err}</li>
                   ))}
                 </ul>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import placeholder from "../../assets/Placeholder.png";
 import toast from "react-hot-toast";
 import { ItemSchema } from "../../utils/schemas/ItemSchema";
@@ -7,6 +7,7 @@ import UbicacionModal from "./UbicacionModal";
 import ModeloModal from "./ModeloModal";
 import MarcaModal from "./MarcaModal";
 import CuentaModal from "./CuentaModal";
+import { ObtenerTipo } from "../../infrastructure/ObtenerTipo";
 
 export default function NuevoItemComponent() {
   const today = new Date();
@@ -51,6 +52,11 @@ export default function NuevoItemComponent() {
   const [showModeloModal, setShowModeloModal] = useState(false);
   const [showMarcaModal, setShowMarcaModal] = useState(false);
   const [showCuentaModal, setShowCuentaModal] = useState(false);
+
+  const [listUbicaciones, setListUbicaciones] = useState([]);
+  const [listModelos, setListModelos] = useState([]);
+  const [listMarcas, setListMarcas] = useState([]);
+  const [listCuentas, setListCuentas] = useState([]);
 
   const validateField = (field, value) => {
     const formdata = {
@@ -118,10 +124,69 @@ export default function NuevoItemComponent() {
     }
   };
 
-  const ObtenerUbcaciones= async ()=>{};
-  const ObtenerModelo = async () =>{};
-  const ObtenerMarcas = async () =>{};
-  const ObtenerCuentas = async () => {};
+  const ObtenerUbcaciones = useCallback (async () => {
+    try {
+      const ubi = await ObtenerTipo("lugares");
+      if (!ubi.isSuccess || !ubi.data?.length) return;
+      const mappedUbicaciones = ubi.data.map((ubicacion) => ({
+        id: ubicacion.lugarid,
+        nombre: ubicacion.nombre,
+      }));
+      setListUbicaciones(mappedUbicaciones);
+    } catch (error) {
+      console.error("Error al cargar los datos:", error);
+      toast.error("No se ha podido cargar los datos");
+    }
+  }, []);
+  const ObtenerModelo = useCallback( async () => {
+    try {
+      const mod = await ObtenerTipo("modelos");
+      if (!mod.isSuccess || !mod.data?.length) return;
+      const mappedModelo = mod.data.map((modelo) => ({
+        id: modelo.modeloid,
+        nombre: modelo.nombre,
+      }));
+      setListModelos(mappedModelo);
+    } catch (error) {
+      console.error("Error al cargar los datos:", error);
+      toast.error("No se ha podido cargar los datos");
+    }
+  }, []);
+  const ObtenerMarcas = useCallback (async () => {
+    try {
+      const mar = await ObtenerTipo("marcas");
+      if (!mar.isSuccess || !mar.data?.length) return;
+      const mappedMarcas = mar.data.map((marca) => ({
+        id: marca.marcaid,
+        nombre: marca.nombre,
+      }));
+      setListMarcas(mappedMarcas);
+    } catch (error) {
+      console.error("Error al cargar los datos:", error);
+      toast.error("No se ha podido cargar los datos");
+    }
+  }, []);
+  const ObtenerCuentas = useCallback(async () => {
+    try {
+      const cue = await ObtenerTipo("cuentas");
+      if (!cue.isSuccess || !cue.data?.length) return;
+      const mappedCuentas = cue.data.map((cuenta) => ({
+        id: cuenta.departamentoid,
+        nombre: cuenta.nombre,
+      }));
+      setListCuentas(mappedCuentas);
+    } catch (error) {
+      console.error("Error al cargar los datos:", error);
+      toast.error("No se ha podido cargar los datos");
+    }
+  }, []);
+
+  useEffect(() => {
+    ObtenerUbcaciones();
+    ObtenerModelo();
+    ObtenerMarcas();
+    ObtenerCuentas();
+  }, [ObtenerUbcaciones, ObtenerModelo, ObtenerMarcas, ObtenerCuentas]);
 
   const handleSubmit = async (e) => {};
 
@@ -437,11 +502,20 @@ export default function NuevoItemComponent() {
                         <option value="" className="text-gray-500">
                           Selecciona una ubicación
                         </option>
+                        {listUbicaciones.map((cat) => (
+                          <option
+                            key={cat.id}
+                            value={cat.id}
+                            className="text-gray-700"
+                          >
+                            {cat.nombre}
+                          </option>
+                        ))}
                       </select>
                     </div>
                     <button
                       type="button"
-                      onClick={()=>setShowUbicacionModal(true)}
+                      onClick={() => setShowUbicacionModal(true)}
                       className="px-2 bg-emerald-50 hover:bg-emerald-100 border-2 border-emerald-200 
                            rounded-xl text-emerald-600 transition-all duration-200 
                            hover:border-emerald-300 hover:scale-105 active:scale-95
@@ -542,11 +616,20 @@ export default function NuevoItemComponent() {
                         <option value="" className="text-gray-500">
                           Selecciona una marca
                         </option>
+                        {listMarcas.map((cat) => (
+                          <option
+                            key={cat.id}
+                            value={cat.id}
+                            className="text-gray-700"
+                          >
+                            {cat.nombre}
+                          </option>
+                        ))}
                       </select>
                     </div>
                     <button
                       type="button"
-                      onClick={()=>setShowMarcaModal(true)}
+                      onClick={() => setShowMarcaModal(true)}
                       className="px-2 bg-emerald-50 hover:bg-emerald-100 border-2 border-emerald-200 
                            rounded-xl text-emerald-600 transition-all duration-200 
                            hover:border-emerald-300 hover:scale-105 active:scale-95
@@ -581,11 +664,20 @@ export default function NuevoItemComponent() {
                         <option value="" className="text-gray-500">
                           Selecciona un modelo
                         </option>
+                        {listModelos.map((cat) => (
+                          <option
+                            key={cat.id}
+                            value={cat.id}
+                            className="text-gray-700"
+                          >
+                            {cat.nombre}
+                          </option>
+                        ))}
                       </select>
                     </div>
                     <button
                       type="button"
-                      onClick={()=>setShowModeloModal(true)}
+                      onClick={() => setShowModeloModal(true)}
                       className="px-2 bg-emerald-50 hover:bg-emerald-100 border-2 border-emerald-200 
                            rounded-xl text-emerald-600 transition-all duration-200 
                            hover:border-emerald-300 hover:scale-105 active:scale-95
@@ -717,13 +809,22 @@ export default function NuevoItemComponent() {
                         }}
                       >
                         <option value="" className="text-gray-500">
-                          Selecciona un departamento
+                          Selecciona una cuenta
                         </option>
+                        {listCuentas.map((cat) => (
+                          <option
+                            key={cat.id}
+                            value={cat.id}
+                            className="text-gray-700"
+                          >
+                            {cat.nombre}
+                          </option>
+                        ))}
                       </select>
                     </div>
                     <button
                       type="button"
-                      onClick={()=>setShowCuentaModal(true)}
+                      onClick={() => setShowCuentaModal(true)}
                       className="px-2 bg-emerald-50 hover:bg-emerald-100 border-2 border-emerald-200 
                            rounded-xl text-emerald-600 transition-all duration-200 
                            hover:border-emerald-300 hover:scale-105 active:scale-95
@@ -1261,7 +1362,10 @@ export default function NuevoItemComponent() {
         />
       )}
       {showUbicacionModal && (
-        <UbicacionModal reload={ObtenerUbcaciones} setShowModal={setShowUbicacionModal} />
+        <UbicacionModal
+          reload={ObtenerUbcaciones}
+          setShowModal={setShowUbicacionModal}
+        />
       )}
       {showModeloModal && (
         <ModeloModal reload={ObtenerModelo} setShowModal={setShowModeloModal} />
@@ -1270,7 +1374,10 @@ export default function NuevoItemComponent() {
         <MarcaModal reload={ObtenerMarcas} setShowModal={setShowMarcaModal} />
       )}
       {showCuentaModal && (
-        <CuentaModal reload={ObtenerCuentas} setShowModal={setShowCuentaModal} />
+        <CuentaModal
+          reload={ObtenerCuentas}
+          setShowModal={setShowCuentaModal}
+        />
       )}
     </div>
   );
