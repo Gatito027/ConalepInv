@@ -24,7 +24,9 @@ export function fetchFactory({
   let body = null;
   const methodsWithBody = ["POST", "PUT", "PATCH", "DELETE"]; // ✅ lista ampliada
 
-  if (data && methodsWithBody.includes(method.toUpperCase())) {
+  if (data instanceof FormData) {
+    body = data;
+  } else if (data && methodsWithBody.includes(method.toUpperCase())) {
     switch (contentType) {
       case "json":
         body = JSON.stringify(data);
@@ -32,7 +34,7 @@ export function fetchFactory({
       case "text":
         body = data;
         break;
-      case "image":
+      case "form-data":
         body = new FormData();
         for (const key in data) {
           body.append(key, data[key]);

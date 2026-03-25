@@ -8,6 +8,7 @@ import ModeloModal from "./ModeloModal";
 import MarcaModal from "./MarcaModal";
 import CuentaModal from "./CuentaModal";
 import { ObtenerTipo } from "../../infrastructure/ObtenerTipo";
+import { RegistrarArchivo } from "../../infrastructure/RegistrarArchivo";
 
 export default function NuevoItemComponent() {
   const today = new Date();
@@ -107,6 +108,109 @@ export default function NuevoItemComponent() {
     }
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    const hasErrors = Object.values(errors).some((arr) => arr.length > 0);
+
+    if (hasErrors) {
+      toast.error("Por favor, corrige los errores en el formulario");
+      setIsLoading(false);
+      return;
+    }
+
+    // Helper para agregar solo si el valor es válido
+    const appendIfValid = (formData, key, value) => {
+      if (value !== undefined && value !== null && value !== "") {
+        formData.append(key, value);
+      }
+    };
+
+    const formData = new FormData();
+
+    // Archivos (estos sí se agregan siempre o con su propia validación)
+    if (img) formData.append("imagen", img);
+    if (documentoBaja) formData.append("baja", documentoBaja);
+    if (polizaDocumento) formData.append("poliza", polizaDocumento);
+
+    // Campos requeridos (siempre se agregan)
+    formData.append("_descripcion", descripcion);
+    formData.append("_numeroInv", numeroInv);
+    formData.append("_lugarId", ubicacion);
+    formData.append("_estado", estado);
+    formData.append("_cantidad", cantidad);
+    formData.append("_donativo", donativo);
+
+    // Campos opcionales (solo si tienen valor)
+    appendIfValid(formData, "_subcuenta", subcuenta);
+    appendIfValid(formData, "_codigoPartida", codigoPartida);
+    appendIfValid(formData, "_observaciones", observaciones);
+    appendIfValid(formData, "_marcaId", marca);
+    appendIfValid(formData, "_modeloId", modelo);
+    appendIfValid(formData, "_numeroSerie", serie);
+    appendIfValid(formData, "_costoAdquisicion", costoAdquidsion);
+    appendIfValid(formData, "_depreciacion", despreciacion);
+    appendIfValid(formData, "_valorLibros", valorLibros);
+    appendIfValid(formData, "_fechaResguardo", fechaResguardo);
+    appendIfValid(formData, "_motivoResguardo", motivoResguardo);
+    appendIfValid(formData, "_departamentoId", departamento);
+    appendIfValid(formData, "_fechaAdquisicion", fechaAdquision);
+    appendIfValid(formData, "_fechaAlta", fechaAlta);
+    appendIfValid(formData, "_cotizacion", valor);
+    appendIfValid(formData, "_cuenta", cuenta);
+    appendIfValid(formData, "_vidaUtil", vidaUtil);
+    appendIfValid(formData, "_fechaBaja", fechaBaja);
+    appendIfValid(formData, "_tipoBaja", tipobaja);
+    appendIfValid(formData, "_fechaPoliza", polizaFecha);
+    appendIfValid(formData, "_fechaDocumentoPoliza", polizaDate);
+
+    try {
+      const response = await RegistrarArchivo(formData, "inv/registrar-bien");
+      if (response.isSuccess) {
+        setImg("");
+        setDocumentoBaja("");
+        setPolizaDocumento("");
+        setSubcuenta("");
+        setDescripcion("");
+        setCodigoPartida("");
+        setNumeroinv("");
+        setObservaciones("");
+        setUbicacion(0);
+        setMarca(0);
+        setModelo(0);
+        setSerie("");
+        setEstado("");
+        setCostoAdquision("");
+        setDespreciacion("");
+        setValorLibros("");
+        setFechaResguardo("");
+        setDonativo(false);
+        setMotivoResguardo("");
+        setDepartamento(0);
+        setFechaAlta(today.toISOString().split("T")[0]);
+        setFechaAdquision("");
+        setcantidad(1);
+        setValor("");
+        setCuenta("");
+        setVidaUtil("");
+        setFechaBaja("");
+        setTipoBaja("");
+        setPolizaDate("");
+        setPolizaFecha("");
+        toast.success("Registro exitoso");
+      } else {
+        console.log(response);
+        toast.error(`Error: ${response.message}`);
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Error: No se ha podido registrar");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleArchivoPDF = (ev, tipo) => {
     const file = ev.target.files?.[0];
     if (!file) return;
@@ -124,7 +228,7 @@ export default function NuevoItemComponent() {
     }
   };
 
-  const ObtenerUbcaciones = useCallback (async () => {
+  const ObtenerUbcaciones = useCallback(async () => {
     try {
       const ubi = await ObtenerTipo("lugares");
       if (!ubi.isSuccess || !ubi.data?.length) return;
@@ -138,7 +242,7 @@ export default function NuevoItemComponent() {
       toast.error("No se ha podido cargar los datos");
     }
   }, []);
-  const ObtenerModelo = useCallback( async () => {
+  const ObtenerModelo = useCallback(async () => {
     try {
       const mod = await ObtenerTipo("modelos");
       if (!mod.isSuccess || !mod.data?.length) return;
@@ -152,7 +256,7 @@ export default function NuevoItemComponent() {
       toast.error("No se ha podido cargar los datos");
     }
   }, []);
-  const ObtenerMarcas = useCallback (async () => {
+  const ObtenerMarcas = useCallback(async () => {
     try {
       const mar = await ObtenerTipo("marcas");
       if (!mar.isSuccess || !mar.data?.length) return;
@@ -187,8 +291,6 @@ export default function NuevoItemComponent() {
     ObtenerMarcas();
     ObtenerCuentas();
   }, [ObtenerUbcaciones, ObtenerModelo, ObtenerMarcas, ObtenerCuentas]);
-
-  const handleSubmit = async (e) => {};
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -366,7 +468,6 @@ export default function NuevoItemComponent() {
                         }}
                         required
                         placeholder="Ej: 203001418"
-                        min={0}
                         className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-shadow sm:text-sm"
                       />
                     </div>
@@ -742,7 +843,6 @@ export default function NuevoItemComponent() {
                         validateField("valorLibros", e.target.value);
                       }}
                       placeholder="Ej: 100.00"
-                      min={0.01}
                       className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-shadow sm:text-sm"
                     />
                   </div>
@@ -774,7 +874,6 @@ export default function NuevoItemComponent() {
                         validateField("despreciacion", e.target.value);
                       }}
                       placeholder="Ej: 123.01"
-                      min={0.01}
                       className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-shadow sm:text-sm"
                     />
                   </div>
@@ -855,7 +954,6 @@ export default function NuevoItemComponent() {
                         setValor(e.target.value);
                         validateField("valor", e.target.value);
                       }}
-                      min={0}
                       placeholder="Ej: 100.00"
                       className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-shadow sm:text-sm"
                     />
@@ -1009,7 +1107,6 @@ export default function NuevoItemComponent() {
                       validateField("costoAdquidsion", e.target.value);
                     }}
                     placeholder="Ej: 1000.00"
-                    min={0.01}
                     className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-shadow sm:text-sm"
                   />
                 </div>
