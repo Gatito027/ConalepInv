@@ -83,26 +83,26 @@ export default function ListItemsComponent({ articulos, reload }) {
                         <div className="flex items-center gap-1.5 text-xs">
                           <span
                             className={`w-1.5 h-1.5 rounded-full animate-pulse ${
-                              item.estado?.toLowerCase() === "bien"
+                              item.estado?.toLowerCase() === "bueno"
                                 ? "bg-emerald-500"
                                 : item.estado?.toLowerCase() === "regular"
                                   ? "bg-amber-500"
                                   : item.estado?.toLowerCase() === "obsoleto"
                                     ? "bg-gray-500"
-                                    : item.estado?.toLowerCase() === "dañado"
+                                    : item.estado?.toLowerCase() === "malo"
                                       ? "bg-red-500"
                                       : "bg-purple-400" // para desconocido
                             }`}
                           />
                           <span
                             className={`px-1.5 py-0.5 rounded-full font-medium ${
-                              item.estado?.toLowerCase() === "bien"
+                              item.estado?.toLowerCase() === "bueno"
                                 ? "bg-emerald-50 text-emerald-700"
                                 : item.estado?.toLowerCase() === "regular"
                                   ? "bg-amber-50 text-amber-700"
                                   : item.estado?.toLowerCase() === "obsoleto"
                                     ? "bg-gray-100 text-gray-700"
-                                    : item.estado?.toLowerCase() === "dañado"
+                                    : item.estado?.toLowerCase() === "malo"
                                       ? "bg-red-50 text-red-700"
                                       : "bg-purple-50 text-purple-700" // para desconocido
                             }`}

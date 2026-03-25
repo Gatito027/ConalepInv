@@ -5,6 +5,7 @@ import placeholder from "../../assets/Placeholder.png";
 import { ObtenerArticulo } from "../../infrastructure/ObtenerArticulo";
 import ContentCardComponent from "./ContentCardComponent";
 import { usePermisos } from "../../context/UseUserData";
+import FileCardComponent from "./FileCardComponent";
 
 export default function VerItemComponent({ itemid }) {
   const [isLoading, setIsLoading] = useState(true);
@@ -44,6 +45,8 @@ export default function VerItemComponent({ itemid }) {
     //console.log(item);
   }, [fetchData]);
   if (error) return <NotFound />
+
+
   return (
     <div className="max-w-2xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden mt-20">
       {/* Header con gradiente */}
@@ -92,13 +95,13 @@ export default function VerItemComponent({ itemid }) {
                 <span className="relative flex h-2 w-2">
                   <span
                     className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${
-                      item.estado?.toLowerCase() === "bien"
+                      item.estado?.toLowerCase() === "bueno"
                         ? "bg-emerald-400"
                         : item.estado?.toLowerCase() === "regular"
                           ? "bg-amber-400"
                           : item.estado?.toLowerCase() === "obsoleto"
                             ? "bg-gray-400"
-                            : item.estado?.toLowerCase() === "dañado"
+                            : item.estado?.toLowerCase() === "malo"
                               ? "bg-red-400"
                               : "bg-purple-400" // para desconocido
                     }`}
@@ -106,13 +109,13 @@ export default function VerItemComponent({ itemid }) {
                   {/*<span className='animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-300 opacity-75'></span>*/}
                   <span
                     className={`relative inline-flex rounded-full h-2 w-2 ${
-                      item.estado?.toLowerCase() === "bien"
+                      item.estado?.toLowerCase() === "bueno"
                         ? "bg-emerald-500"
                         : item.estado?.toLowerCase() === "regular"
                           ? "bg-amber-500"
                           : item.estado?.toLowerCase() === "obsoleto"
                             ? "bg-gray-500"
-                            : item.estado?.toLowerCase() === "dañado"
+                            : item.estado?.toLowerCase() === "malo"
                               ? "bg-red-500"
                               : "bg-purple-500" // para desconocido
                     }`}
@@ -222,29 +225,39 @@ export default function VerItemComponent({ itemid }) {
               description={"Número de serie"}
             />
             <ContentCardComponent
-              content={`$ ${item.valorlibros}`}
+              content={item.valorlibros ? `$ ${item.valorlibros}` : null}
               icon={"book"}
               description={"Valor en libros"}
             />
             <ContentCardComponent
-              content={`$ ${item.despreciacion}`}
+              content={item.despreciacion ? `$ ${item.despreciacion}` : null}
               icon={"trending_down"}
               description={"Depreciación"}
             />
             <ContentCardComponent
-              content={item.departamentoapare}
-              icon={"apartment"}
-              description={"Departamento que ampare la propiedad"}
+              content={item.departamento}
+              icon={"category"}
+              description={"Cuenta (tipo de bien)"}
             />
             <ContentCardComponent
-              content={item.rfc}
-              icon={"badge"}
-              description={"RFC"}
+              content={item.cotizacion}
+              icon={"request_quote"}
+              description={"Valor cotización"}
             />
             <ContentCardComponent
-              content={item.nombre}
-              icon={"person"}
-              description={"Nombre"}
+              content={item.cuenta}
+              icon={"account_balance_wallet"}
+              description={"Cuenta Dep."}
+            />
+            <ContentCardComponent
+              content={item.fechaalta ? convertidorFecha(item.fechaalta) : null}
+              icon={"event_available"}
+              description={"Fecha de alta"}
+            />
+            <ContentCardComponent
+              content={item.vidautil}
+              icon={"history"}
+              description={"Años de vida util"}
             />
           </div>
           <div className="flex items-center gap-2 mb-4 mt-4">
@@ -256,12 +269,12 @@ export default function VerItemComponent({ itemid }) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Cards */}
             <ContentCardComponent
-              content={`$ ${item.costoadquision}`}
+              content={item.costoadquision ? `$ ${item.costoadquision}` : null}
               icon={"attach_money"}
               description={"Costo de adquisición"}
             />
             <ContentCardComponent
-              content={convertidorFecha(item.fechaadquision)}
+              content={item.fechaadquision ? convertidorFecha(item.fechaadquision) : null}
               icon={"calendar_today"}
               description={"Fecha de adquisición"}
             />
@@ -336,15 +349,15 @@ export default function VerItemComponent({ itemid }) {
                   icon={"assignment_return"}
                   description={"Tipo de baja"}
                 />
-                <ContentCardComponent
-                  content={item.documento_baja}
-                  icon={"description"}
+                <FileCardComponent
+                  file={item.documentobaja}
+                  icon={"article"}
                   description={"Documento de baja"}
                 />
               </div>
             </>
           )}
-          {Array.isArray(item.poliza) && item.poliza.length > 0 && (
+          {item.fechapoliza != null && (
             <>
               <div className="flex items-center gap-2 mb-4 mt-4">
                 <div className="h-6 w-1 bg-emerald-400 rounded-full"></div>
@@ -353,35 +366,30 @@ export default function VerItemComponent({ itemid }) {
                 </h3>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {item.poliza.map((p, index) => (
-                  <div key={index} className="col-span-2 flex flex-row gap-4">
-                    <ContentCardComponent
-                      content={
-                        p.fechadocumento
-                          ? convertidorFecha(p.fechadocumento)
-                          : null
-                      }
-                      icon={"policy"}
-                      description={"Fecha documento"}
-                    />
-                    <ContentCardComponent
-                      content={
-                        p.fechapoliza ? convertidorFecha(p.fechapoliza) : null
-                      }
-                      icon={"receipt_long"}
-                      description={"Fecha póliza"}
-                    />
-                  </div>
-                ))}
+                <ContentCardComponent
+                  content={item.fechapoliza ? convertidorFecha(item.fechapoliza) : null}
+                  icon={"date_range"}
+                  description={"Fecha de Poliza"}
+                />
+                <ContentCardComponent
+                  content={item.fechadocumentopoliza ? convertidorFecha(item.fechadocumentopoliza) : null}
+                  icon={"receipt_long"}
+                  description={"Fecha de documento"}
+                />
+                <FileCardComponent
+                  file={item.documentopoliza}
+                  icon={"assignment"}
+                  description={"Documento de poliza"}
+                />
               </div>
             </>
           )}
         </div>
-        {userPermisos.includes("Editar articulo") && (
+        {/*userPermisos.includes("Editar articulo") && (
         <button className="mt-4 mb-4 sm:mt-0 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 rounded-lg text-white font-medium transition-all backdrop-blur-sm flex items-center gap-2">
           <span className="material-icons text-sm">edit</span>
           Editar
-        </button>)}
+        </button>)*/}
       </div>
     </div>
   );
