@@ -304,7 +304,7 @@ export default function VerItemComponent({ itemid }) {
               />
             )}
           </div>
-          {item.fecharesguardo != null && (
+          {(item.fecharesguardo != null || item.motivoresguardo != null) && (
             <>
               <div className="flex items-center gap-2 mb-4 mt-4">
                 <div className="h-6 w-1 bg-emerald-400 rounded-full"></div>
@@ -330,7 +330,7 @@ export default function VerItemComponent({ itemid }) {
               </div>
             </>
           )}
-          {item.fechabaja != null && (
+          {(item.fechabaja != null || item.tipobaja != null || item.documentobaja !=null) && (
             <>
               <div className="flex items-center gap-2 mb-4 mt-4">
                 <div className="h-6 w-1 bg-emerald-400 rounded-full"></div>
@@ -357,7 +357,7 @@ export default function VerItemComponent({ itemid }) {
               </div>
             </>
           )}
-          {item.fechapoliza != null && (
+          {(item.fechapoliza != null || item.fechadocumentopoliza != null || item.documentopoliza != null) && (
             <>
               <div className="flex items-center gap-2 mb-4 mt-4">
                 <div className="h-6 w-1 bg-emerald-400 rounded-full"></div>

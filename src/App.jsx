@@ -13,6 +13,7 @@ import VerRolPage from "./pages/VerRolPage";
 import EditarRolPage from "./pages/EditarRolPage";
 import VerItemPage from "./pages/VerItemPage";
 import NuevoItemPage from "./pages/NuevoItemPage";
+import EditarItemPage from "./pages/EditarItemPage";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
             <Route path="roles/editrol/:id" element={<EditarRolPage />} />
             <Route path="inventario/item/:id" element={<VerItemPage />} />
             <Route path="inventario/registro" element={<NuevoItemPage />} />
+            <Route path="inventario/editaritem/:id" element={<EditarItemPage />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
