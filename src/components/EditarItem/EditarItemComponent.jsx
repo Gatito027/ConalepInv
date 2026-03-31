@@ -10,6 +10,7 @@ import CuentaModal from "../NuevoItem/CuentaModal";
 import { ObtenerTipo } from "../../infrastructure/ObtenerTipo";
 import { ObtenerArticulo } from "../../infrastructure/ObtenerArticulo";
 import { ActualizarArchivo } from "../../infrastructure/ActualizarArchivo";
+import NotFound from "../../pages/NoFoundPage";
 
 export default function EditarItemComponent({ itemId }) {
   const [img, setImg] = useState();
@@ -212,6 +213,7 @@ export default function EditarItemComponent({ itemId }) {
     }
     if (tipo === "baja") {
       setDocumentoBaja(file);
+    // eslint-disable-next-line no-constant-condition
     } else if ("poliza") {
       setPolizaDocumento(file);
     }
@@ -332,6 +334,8 @@ export default function EditarItemComponent({ itemId }) {
     ObtenerCuentas,
     ObtenerDatos,
   ]);
+
+  if (error) return <NotFound />;
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

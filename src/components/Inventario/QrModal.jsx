@@ -1,6 +1,6 @@
 import { Scanner } from "@yudiel/react-qr-scanner";
 
-export default function ({ setBusqueda, setShowModal }) {
+export default function QrModal({ setBusqueda, setShowModal }) {
   const handleScan = (detectedCodes) => {
     detectedCodes.forEach((code) => {
       //console.log(`Format: ${code.format}, Value: ${code.rawValue}`);

@@ -1,39 +1,45 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState, useMemo } from "react";
 
 export default function ModalPDFViewer({ titulo, archivo, onClose }) {
-  const [src, setSrc] = useState(null);
+  const [fetchedSrc, setFetchedSrc] = useState(null);
 
+  // Para Blobs locales: se deriva directamente sin efecto
+  const blobSrc = useMemo(() => {
+    if (archivo instanceof Blob) return URL.createObjectURL(archivo);
+    return null;
+  }, [archivo]);
+
+  // Solo se usa efecto para operaciones asíncronas (fetch)
   useEffect(() => {
-    if (!archivo) {
-      setSrc(null);
-      return;
-    }
+    if (typeof archivo !== "string") return;
 
-    if (typeof archivo === "string") {
-      // Es un enlace directo
-      fetch(archivo, { credentials: "include" })
-        .then(res => res.blob())
-        .then(blob => {
-          const url = URL.createObjectURL(blob);
-          setSrc(url);
-        })
-        .catch(err => console.error("Error cargando PDF:", err));
-    } else if (archivo instanceof Blob) {
-      // Es un archivo local
-      const url = URL.createObjectURL(archivo);
-      setSrc(url);
-    } else {
-      console.warn("Tipo de archivo no soportado:", archivo);
-      setSrc(null);
-    }
+    let objectUrl = null;
+    let cancelled = false;
 
-    // Limpieza: revocar URL cuando cambie o se desmonte
+    fetch(archivo, { credentials: "include" })
+      .then((res) => res.blob())
+      .then((blob) => {
+        if (cancelled) return;
+        objectUrl = URL.createObjectURL(blob);
+        setFetchedSrc(objectUrl);
+      })
+      .catch((err) => console.error("Error cargando PDF:", err));
+
     return () => {
-      if (src) {
-        URL.revokeObjectURL(src);
-      }
+      cancelled = true;
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
     };
   }, [archivo]);
+
+  // Limpiar blobSrc cuando cambie
+  useEffect(() => {
+    return () => {
+      if (blobSrc) URL.revokeObjectURL(blobSrc);
+    };
+  }, [blobSrc]);
+
+  // Determinar src final
+  const src = typeof archivo === "string" ? fetchedSrc : blobSrc;
 
   if (!archivo) return null;
 

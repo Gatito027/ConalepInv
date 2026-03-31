@@ -44,9 +44,11 @@ export default function VerItemComponent({ itemid }) {
     fetchData();
     //console.log(item);
   }, [fetchData]);
-  if (error) return <NotFound />
 
+  if (error) return <NotFound />;
 
+  if (!Array.isArray(userPermisos)) return <h1 className="mt-15">No cuentas con permisos</h1>;
+  
   return (
     <div className="max-w-2xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden mt-20">
       {/* Header con gradiente */}

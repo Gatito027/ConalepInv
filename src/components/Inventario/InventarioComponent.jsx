@@ -7,6 +7,8 @@ import QrModal from "./QrModal";
 import { ListaArticulos } from "../../infrastructure/ListaArticulos";
 import ListItemsComponent from "./ListItemsComponent";
 import LoadingPageComponent from "../Others/LoadingPageComponent";
+import ExportarModal from "./ExportarModal";
+import ImportarModal from "./ImportarModal";
 
 export default function InventarioComponent() {
   const { userPermisos } = usePermisos();
@@ -15,6 +17,8 @@ export default function InventarioComponent() {
   const [showQrModal, setShowQrModal] = useState(false);
   const [articulos, setArticulos] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [showExportModal, setShowExportModal] = useState(false);
+  const [showImportModal, setShowImportModal] = useState(false);
 
   const articulosFiltrados = articulos.filter((item) => {
     const textoBusqueda = busqueda.toLowerCase().trim();
@@ -50,6 +54,7 @@ export default function InventarioComponent() {
   });
 
   const fetchData = useCallback(async () => {
+    //setIsLoading(true);
     try {
       const response = await ListaArticulos();
 
@@ -106,7 +111,7 @@ export default function InventarioComponent() {
           <div className="flex items-center gap-4">
             {userPermisos.includes("Exportar Excel") && (
               <button
-                onClick={() => navigate("registro")}
+                onClick={() => setShowExportModal(true)}
                 className="bg-white text-emerald-700 hover:bg-emerald-50 px-5 py-3 rounded-xl font-semibold flex items-center gap-2 transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 group"
               >
                 <span className="material-icons text-lg">archive</span>
@@ -118,7 +123,7 @@ export default function InventarioComponent() {
             )}
             {userPermisos.includes("Importar Excel") && (
               <button
-                onClick={() => navigate("registro")}
+                onClick={() => setShowImportModal(true) }
                 className="bg-white text-emerald-700 hover:bg-emerald-50 px-5 py-3 rounded-xl font-semibold flex items-center gap-2 transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 group"
               >
                 <span className="material-icons text-lg">upload_file</span>
@@ -202,6 +207,12 @@ export default function InventarioComponent() {
       </div>
       {showQrModal && (
         <QrModal setBusqueda={setBusqueda} setShowModal={setShowQrModal} />
+      )}
+      {showExportModal && (
+        <ExportarModal setShowModal={setShowExportModal} reload={fetchData} />
+      )}
+      {showImportModal && (
+        <ImportarModal setShowModal={setShowImportModal} />
       )}
     </div>
   );

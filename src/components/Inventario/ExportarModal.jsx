@@ -1,0 +1,1 @@
+export default function ExportarModal({ setShowModal, reload }) {}

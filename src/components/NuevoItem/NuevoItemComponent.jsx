@@ -223,6 +223,7 @@ export default function NuevoItemComponent() {
     }
     if (tipo === "baja") {
       setDocumentoBaja(file);
+    // eslint-disable-next-line no-constant-condition
     } else if ("poliza") {
       setPolizaDocumento(file);
     }
