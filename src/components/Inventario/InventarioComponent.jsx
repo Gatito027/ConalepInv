@@ -9,6 +9,7 @@ import ListItemsComponent from "./ListItemsComponent";
 import LoadingPageComponent from "../Others/LoadingPageComponent";
 import ExportarModal from "./ExportarModal";
 import ImportarModal from "./ImportarModal";
+import DescargarEtiquetado from "./DescargarEtiquetado";
 
 export default function InventarioComponent() {
   const { userPermisos } = usePermisos();
@@ -19,6 +20,7 @@ export default function InventarioComponent() {
   const [isLoading, setIsLoading] = useState(true);
   const [showExportModal, setShowExportModal] = useState(false);
   const [showImportModal, setShowImportModal] = useState(false);
+  const [showEtiquetadoModal, setShowEtiquetadoModal] = useState(false);
 
   const articulosFiltrados = articulos.filter((item) => {
     const textoBusqueda = busqueda.toLowerCase().trim();
@@ -182,6 +184,7 @@ export default function InventarioComponent() {
 
           <button
             title="Descargar Etiquetado"
+            onClick={()=>setShowEtiquetadoModal(true)}
             className="flex items-center px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg hover:bg-gray-100 transition"
           >
             <span className="material-icons text-gray-700 text-base">
@@ -212,10 +215,13 @@ export default function InventarioComponent() {
         <QrModal setBusqueda={setBusqueda} setShowModal={setShowQrModal} />
       )}
       {showExportModal && (
-        <ExportarModal setShowModal={setShowExportModal} reload={fetchData} />
+        <ExportarModal setShowModal={setShowExportModal} />
       )}
       {showImportModal && (
         <ImportarModal setShowModal={setShowImportModal} />
+      )}
+      {showEtiquetadoModal && (
+        <DescargarEtiquetado setShowModal={setShowEtiquetadoModal} />
       )}
     </div>
   );

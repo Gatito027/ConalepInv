@@ -2,10 +2,9 @@ import { useState, useCallback, useEffect } from "react";
 import toast from "react-hot-toast";
 import { ExportSchema } from "../../utils/schemas/ExportSchema";
 import { ObtenerTipo } from "../../infrastructure/ObtenerTipo";
-import { RegistrarTipo } from "../../infrastructure/RegistrarTipo";
 
-export default function ExportarModal({ setShowModal }) {
-  const [isLoading, setIsLoading] = useState(false);
+export default function DescargarEtiquetado({ setShowModal }){
+    const [isLoading, setIsLoading] = useState(false);
   const [startedInv, setStartedInv] = useState("");
   const [endInv, setEndInv] = useState("");
   const [estado, setEstado] = useState("");
@@ -103,12 +102,13 @@ export default function ExportarModal({ setShowModal }) {
             _donativo: donativo,
         };
 
-        const response = await fetch(`${import.meta.env.VITE_CONALEP_API}/inv/exportar`, {
+        const response = await fetch(`${import.meta.env.VITE_CONALEP_API}/inv/etiquetado`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             credentials: "include",   // envía la cookie con el token
             body: JSON.stringify(payload),
         });
+        //console.log(await response.json());
 
         // Si el back respondió con JSON es porque hubo un error
         const contentType = response.headers.get("Content-Type") || "";
@@ -173,14 +173,14 @@ export default function ExportarModal({ setShowModal }) {
         {/* Cabecera */}
         <div className="bg-emerald-50 px-5 py-4 border-b border-emerald-100 flex items-center gap-3">
           <span className="material-icons text-emerald-600 text-2xl">
-            archive
+            loyalty
           </span>
           <div>
             <h2 className="text-lg font-semibold text-gray-900">
-              Exportar inventario
+              Etiquetado de inventario
             </h2>
             <p className="text-xs text-gray-500">
-              Descarga los datos filtrados en un archivo Excel
+              Descarga las etiquetas del inventario en un archivo Excel
             </p>
           </div>
         </div>
