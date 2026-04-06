@@ -49,7 +49,13 @@ export default function ImportarModal({ setShowModal }) {
     }
   };
   
-  const dowloadExample = async () => {};
+  const dowloadExample = async (e) => {
+    e.preventDefault();
+    const link = document.createElement("a");
+    link.href = "/Ejemplo_Importacion.xlsx";
+    link.download = "archivo-ejemplo.xlsx";
+    link.click();
+  };
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
       {/* Backdrop con efecto mejorado */}
@@ -101,6 +107,7 @@ export default function ImportarModal({ setShowModal }) {
             </fieldset>
             <fieldset className="space-y-1.5 mt-2">
               <button
+              onClick={dowloadExample}
                 className="group w-full flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold text-white 
                bg-emerald-600 hover:bg-emerald-700 mt-2
                transition-all duration-300 shadow-md hover:shadow-xl 

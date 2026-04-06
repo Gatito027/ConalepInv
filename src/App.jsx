@@ -14,6 +14,7 @@ import EditarRolPage from "./pages/EditarRolPage";
 import VerItemPage from "./pages/VerItemPage";
 import NuevoItemPage from "./pages/NuevoItemPage";
 import EditarItemPage from "./pages/EditarItemPage";
+import VerPerfilPage from "./pages/VerPerfilPage";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
             <Route path="inventario/item/:id" element={<VerItemPage />} />
             <Route path="inventario/registro" element={<NuevoItemPage />} />
             <Route path="inventario/editaritem/:id" element={<EditarItemPage />} />
+            <Route path="perfil" element={<VerPerfilPage />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
