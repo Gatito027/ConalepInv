@@ -15,6 +15,7 @@ import VerItemPage from "./pages/VerItemPage";
 import NuevoItemPage from "./pages/NuevoItemPage";
 import EditarItemPage from "./pages/EditarItemPage";
 import VerPerfilPage from "./pages/VerPerfilPage";
+import MiInvetarioPage from "./pages/MiInvetarioPage";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
             <Route path="inventario/registro" element={<NuevoItemPage />} />
             <Route path="inventario/editaritem/:id" element={<EditarItemPage />} />
             <Route path="perfil" element={<VerPerfilPage />} />
+            <Route path="mi-invetario" element={<MiInvetarioPage />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>

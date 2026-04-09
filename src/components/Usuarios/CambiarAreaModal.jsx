@@ -1,10 +1,9 @@
 import { useState, useCallback, useEffect } from "react";
-import { ObtenerTipo } from "../../infrastructure/ObtenerTipo";
-import { ObtenerRolArea } from "../../infrastructure/ObtenerRolArea";
 import toast from "react-hot-toast";
-import CambiarAreaRol from "../../infrastructure/CambiarAreaRol";
+import { MethodPost } from "../../utils/Data/methodPost";
+import { MethodGet } from "../../utils/Data/MethodGet";
 
-export default function CambiarAreaModal({ usuarioId, setShowModal, reload }) {
+export default function CambiarAreaModal({ usuarioId, setShowModal, reload, permiso }) {
   const [isLoading, setIsLoading] = useState(false);
   const [listaRoles, setListaRoles] = useState([]);
   const [rol, setRol] = useState(0);
@@ -17,7 +16,12 @@ export default function CambiarAreaModal({ usuarioId, setShowModal, reload }) {
         _usuarioId: usuarioId,
         _area: rol,
       };
-      const response = await CambiarAreaRol("/cambiar-area", payload);
+      let response;
+      if (permiso === "Editar mi area") {
+        response = await MethodPost(payload, "cambiar-area-usuario");
+      } else {
+        response = await MethodPost(payload, "cambiar-area");
+      }
       if (response.isSuccess) {
         toast.success("Cambio de area exitosa");
         reload();
@@ -35,9 +39,10 @@ export default function CambiarAreaModal({ usuarioId, setShowModal, reload }) {
 
   const fechData = useCallback(async () => {
     try {
-      const RolesData = await ObtenerTipo("areas");
+      const RolesData = await MethodGet("data/areas");
       //console.log(RolesData);
-      const UserData = await ObtenerRolArea("obtener-area-usuario", usuarioId);
+      const payload= {_usuarioId:usuarioId}
+      const UserData = await MethodPost(payload, "data/obtener-area-usuario");
       if (!RolesData.isSuccess || !RolesData.data?.length) return;
       if (!UserData.isSuccess) return;
       const mappedRoles = RolesData.data.map((rol) => ({

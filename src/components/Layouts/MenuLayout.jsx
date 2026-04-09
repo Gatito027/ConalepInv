@@ -13,6 +13,7 @@ export default function MenuLayout() {
     { to: "/usuarios", icon: "group", label: "Gestión de usuarios", permiso: "Usuarios" },
     { to: "/roles", icon: "admin_panel_settings", label: "Gestión de roles", permiso: "Roles" },
     { to: "/", icon: "inventory", label: "Gestión de inventario", permiso: "Inventario" },
+    { to: "/mi-invetario", icon: "warehouse", label: "Mi inventario", permiso: null },
     { to: "/perfil", icon: "account_circle", label: "Perfil", permiso: null },
   ];
 

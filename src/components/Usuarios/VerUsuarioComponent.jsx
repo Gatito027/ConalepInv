@@ -205,7 +205,7 @@ export default function VerUsuarioComponent({ usuarioId }) {
         <CambiarRolModal usuarioId={usuarioId} setShowModal={setShowRolModal} reload={fetchData} />
       )}
       {showAreaModal && (
-        <CambiarAreaModal usuarioId={usuarioId} setShowModal={setShowAreaModal} reload={fetchData}/>
+        <CambiarAreaModal usuarioId={usuarioId} setShowModal={setShowAreaModal} reload={fetchData} permiso={"Cambiar area"}/>
       )}
     </div>
   );

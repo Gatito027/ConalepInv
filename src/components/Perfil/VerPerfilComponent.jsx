@@ -3,8 +3,10 @@ import toast from "react-hot-toast";
 import CambiarAreaModal from "../Usuarios/CambiarAreaModal";
 import { RecuperarPerfil } from "../../infrastructure/RecuperarPerfil";
 import RestablecerPasswordModal from "./RestablecerPasswordModal";
+import { usePermisos } from "../../context/UseUserData";
 
 export default function VerPerfilComponent() {
+  const { userPermisos } = usePermisos();
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState({});
   const [showPasswordModal, setShowPasswordModal] = useState(false);
@@ -32,6 +34,8 @@ export default function VerPerfilComponent() {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+
+  if (!Array.isArray(userPermisos)) return <h1 className="mt-15">No cuentas con permisos</h1>;
 
   return (
     <div className="max-w-2xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden mt-20">
@@ -138,6 +142,7 @@ export default function VerPerfilComponent() {
           <span className="material-icons text-sm">lock</span>
           Cambiar contraseña
         </button>
+        {userPermisos.includes("Editar mi area") && (
         <button
           onClick={() => {
             setShowAreaModal(true);
@@ -146,13 +151,14 @@ export default function VerPerfilComponent() {
         >
           <span className="material-icons text-sm">business</span>
           Cambiar area
-        </button>
+        </button>)}
       </div>
       {showAreaModal && (
         <CambiarAreaModal
           usuarioId={user.usuarioid}
           setShowModal={setShowAreaModal}
           reload={fetchData}
+          permiso={"Editar mi area"}
         />
       )}
       {showPasswordModal && (

@@ -57,7 +57,7 @@ export default function InventarioComponent() {
   });
 
   const fetchData = useCallback(async () => {
-    //setIsLoading(true);
+    setIsLoading(true);
     try {
       const response = await ListaArticulos();
 

@@ -74,7 +74,7 @@ export default function RestablecerPasswordModal({ usuarioId, setShowModal }) {
       setIsLoading(false);
     }
   };
-  
+
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
       {/* Backdrop con efecto mejorado */}
@@ -101,7 +101,7 @@ export default function RestablecerPasswordModal({ usuarioId, setShowModal }) {
         <div className="p-6">
           <p className="text-gray-600 mb-6 flex items-center gap-2">
             <span className="material-icons text-gray-400 text-xl">info</span>
-            Cambia la contraseña de este usuario
+            Cambia tu contraseña
           </p>
           <form onSubmit={handleSubmit}>
             {/* Contraseña vieja */}
@@ -153,7 +153,7 @@ export default function RestablecerPasswordModal({ usuarioId, setShowModal }) {
             </fieldset>
 
             {/* Contraseña */}
-            <fieldset className="space-y-1.5">
+            <fieldset className="space-y-1.5 mt-3">
               <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
                 <span className="material-icons text-emerald-600 text-xl">
                   lock_open
